@@ -78,4 +78,7 @@ dependencies {
     implementation("androidx.credentials:credentials:$googleSignInVersion")
     implementation("androidx.credentials:credentials-play-services-auth:$googleSignInVersion")
     implementation("com.google.android.libraries.identity.googleid:googleid:$googleSignInVersion")
+
+    // koin
+    implementation("io.insert-koin:koin-android:3.2.0")
 }
