@@ -1,6 +1,6 @@
 package com.appsv.notesapp.base
 import android.app.Application
-import com.appsv.notesapp.auth.presentation.di.authPresentationModule
+import com.appsv.notesapp.auth.di.authModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -12,7 +12,7 @@ class MyApplication : Application(){
 
         startKoin{
             modules(
-                authPresentationModule
+              authModule
             )
             androidContext(this@MyApplication)
         }

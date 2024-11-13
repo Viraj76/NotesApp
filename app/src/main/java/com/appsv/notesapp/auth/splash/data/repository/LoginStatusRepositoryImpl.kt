@@ -1,8 +1,8 @@
-package com.appsv.notesapp.splash.data.repository
+package com.appsv.notesapp.auth.splash.data.repository
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.appsv.notesapp.splash.domain.repository.LoginStatusRepository
+import com.appsv.notesapp.auth.splash.domain.repository.LoginStatusRepository
 
 class LoginStatusRepositoryImpl(context: Context) : LoginStatusRepository {
 

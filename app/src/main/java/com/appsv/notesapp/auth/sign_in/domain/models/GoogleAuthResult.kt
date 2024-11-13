@@ -1,4 +1,4 @@
-package com.appsv.notesapp.auth.domain.models
+package com.appsv.notesapp.auth.sign_in.domain.models
 
 data class GoogleAuthResult(
     val idToken: String?,
