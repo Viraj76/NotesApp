@@ -8,15 +8,14 @@ plugins {
 android {
     namespace = "com.appsv.notesapp"
     compileSdk = 35
-
     defaultConfig {
         applicationId = "com.appsv.notesapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"${project.hasProperty("GOOGLE_CLIENT_ID")}\"")
     }
 
     buildTypes {
@@ -37,6 +36,7 @@ android {
     }
     buildFeatures{
         viewBinding = true
+        buildConfig = true
     }
 }
 

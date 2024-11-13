@@ -5,6 +5,7 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
+import com.appsv.notesapp.BuildConfig
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -17,7 +18,9 @@ import kotlinx.coroutines.launch
 *Displays all logged-in emails, and authenticates the user upon selection.
  */
 
-class GoogleAuthenticator(private val context: Context, clientID: String) {
+class GoogleAuthenticator(private val context: Context) {
+
+    private val  clientID: String = BuildConfig.GOOGLE_CLIENT_ID
 
     private val credentialManager = CredentialManager.create(context)
 
