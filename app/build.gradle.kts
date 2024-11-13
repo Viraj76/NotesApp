@@ -72,4 +72,10 @@ dependencies {
 
     //Lottie animation
     implementation("com.airbnb.android:lottie:4.2.0")
+
+    // Google Sign In
+    val googleSignInVersion ="1.1.1"
+    implementation("androidx.credentials:credentials:$googleSignInVersion")
+    implementation("androidx.credentials:credentials-play-services-auth:$googleSignInVersion")
+    implementation("com.google.android.libraries.identity.googleid:googleid:$googleSignInVersion")
 }

@@ -17,6 +17,7 @@ class SignInFragment : Fragment() {
         binding = FragmentSignInBinding.inflate(layoutInflater)
 
 
+
         return binding.root
     }
 
