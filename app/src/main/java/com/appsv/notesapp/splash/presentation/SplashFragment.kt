@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.appsv.notesapp.R
 import com.appsv.notesapp.databinding.FragmentSplashBinding
 
 
@@ -18,5 +17,4 @@ class SplashFragment : Fragment() {
         binding  = FragmentSplashBinding.inflate(layoutInflater)
         return binding.root
     }
-
 }
