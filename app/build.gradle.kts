@@ -15,7 +15,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"${project.hasProperty("GOOGLE_CLIENT_ID")}\"")
+        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"${project.hasProperty("GOOGLE_CLIENT_ID") ?: ""}\"")
     }
 
     buildTypes {

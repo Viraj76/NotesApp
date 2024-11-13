@@ -5,22 +5,18 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
-import com.appsv.notesapp.BuildConfig
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 /**
-*Handles user authentication via Gmail accounts.
-*Displays all logged-in emails, and authenticates the user upon selection.
+ * Handles user authentication via Gmail accounts.
+ * Displays all logged-in emails, and authenticates the user upon selection.
  */
 
 class GoogleAuthenticator(private val context: Context) {
 
-    private val  clientID: String = BuildConfig.GOOGLE_CLIENT_ID
+    private val clientID: String = "401047126786-i6cqr63g6153nvpvd2vc2kco89j2omai.apps.googleusercontent.com"
 
     private val credentialManager = CredentialManager.create(context)
 
@@ -34,32 +30,25 @@ class GoogleAuthenticator(private val context: Context) {
                 .build()
         }
 
-    fun authenticate(callback: (GoogleIdTokenCredential?) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val result = credentialManager.getCredential(request = request, context = context)
-                processSignIn(callback, result)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                callback(null)
-            }
-        }
+    suspend fun authenticate(): GoogleIdTokenCredential? = try {
+        val result = credentialManager.getCredential(request = request, context = context)
+        processSignIn(result)
+    } catch (e: androidx.credentials.exceptions.GetCredentialCancellationException) {
+        null
+    } catch (e: Exception) {
+        null
     }
 
-    private fun processSignIn(
-        callback: (GoogleIdTokenCredential?) -> Unit,
-        result: GetCredentialResponse
-    ) {
+    private fun processSignIn(result: GetCredentialResponse): GoogleIdTokenCredential? {
         val credential = result.credential
-        if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+        return if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
             try {
-                val googleCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                callback(googleCredential)
+                GoogleIdTokenCredential.createFrom(credential.data)
             } catch (e: GoogleIdTokenParsingException) {
-                callback(null)
+                null
             }
         } else {
-            callback(null)
+            null
         }
     }
 }
