@@ -5,15 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/cobalt_blue"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/tvOrContinueWith"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="or continue with"
-        android:textSize="14sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimation"
         android:layout_width="wrap_content"
