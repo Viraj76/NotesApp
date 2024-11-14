@@ -12,12 +12,10 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.transition.Visibility
 import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
 import com.appsv.notesapp.databinding.FragmentHomeBinding
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -46,7 +44,6 @@ class HomeFragment : Fragment() {
             currentUserId?.let { userId ->
                 homeViewModel.getUserById(userId).collect { loggedInUserDetail ->
                     loggedInUserDetail?.let {
-                        Log.d("UserInfo", it.toString())
 
                         val userName = it.displayName
                         binding.tvUserName.text = userName

@@ -20,8 +20,6 @@ class HomeViewModel(
     context : Context
 ) : ViewModel(), KoinComponent {
 
-    private var _loggedInUser = MutableStateFlow(LoggedInUserDetail(id = ""))
-    val loggedInUserDetail = _loggedInUser.asStateFlow()
 
     private val googleSignIn: GoogleAuthenticator by inject { parametersOf(context) }
     private val loggedInUserRepository: LoggedInUserRepository by inject()

@@ -4,10 +4,8 @@ package com.appsv.notesapp.core.data.repository
 import com.appsv.notesapp.core.data.local.room.GoogleAuthResultDao
 import com.appsv.notesapp.core.domain.models.LoggedInUserDetail
 import com.appsv.notesapp.core.domain.repositories.LoggedInUserRepository
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
+
 
 class LoggedInUserRepositoryImpl(
     private val googleAuthResultDao: GoogleAuthResultDao
