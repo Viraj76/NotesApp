@@ -37,16 +37,24 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
-        val currentUserId = arguments?.getString("userId")
+        val currentUserId = homeViewModel.getUserId()
         onLogOutIconClick()
 
         getLoggedInUserInfo(currentUserId)
 
         getNotes(currentUserId)
 
+        onNoteAddButtonClick()
 
         Toast.makeText(requireContext(), "Welcome, $currentUserId", Toast.LENGTH_SHORT).show()
         return binding.root
+    }
+
+    private fun onNoteAddButtonClick() {
+        binding.fabAddNote.setOnClickListener{
+
+            findNavController().navigate(R.id.action_homeFragment_to_addOrEditFragment)
+        }
     }
 
     private fun getNotes(currentUserId: String?) {

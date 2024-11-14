@@ -28,32 +28,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_3sdp"
                 android:layout_marginStart="@dimen/_5sdp">
+                <ImageView
+                    android:id="@+id/ivBackButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="visible"
+                    android:scaleType="center"
+                    android:src="@drawable/baseline_keyboard_backspace_24" />
                 <ImageView
                     android:id="@+id/ivAddIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/_10sdp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:visibility="visible"
                     android:scaleType="center"
-                    android:src="@drawable/baseline_post_add_24" />
+                    android:src="@drawable/baseline_post_add_24"
+                    app:tint="@color/green_oval" />
+
                 <ImageView
                     android:id="@+id/ivEditIcon"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:visibility="gone"
                     android:scaleType="center"
-                    android:src="@drawable/baseline_edit_square_24" />
+                    android:src="@drawable/baseline_edit_24"
+                    android:visibility="gone"
+                    app:tint="@color/red" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal"
                 >
                 <TextView
@@ -93,7 +109,6 @@
             android:background="@drawable/edit_text_title"
             android:fontFamily="@font/font_two"
             android:hint="Enter title please"
-            android:maxLines="1"
             android:padding="15dp"
             android:textColor="@color/white"
             android:textColorHint="#A8D1F2" />
@@ -106,7 +121,6 @@
             android:background="@drawable/edit_text_title"
             android:fontFamily="@font/font_two"
             android:hint="Enter subtitle please"
-            android:maxLines="1"
             android:padding="15dp"
             android:textColor="@color/white"
             android:textColorHint="#A8D1F2" />

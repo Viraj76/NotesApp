@@ -39,5 +39,19 @@
             app:destination="@id/signInFragment"
             app:popUpTo="@id/signInFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_addOrEditFragment"
+            app:destination="@id/addOrEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addOrEditFragment"
+        android:name="com.appsv.notesapp.notes.add_edit.AddOrEditFragment"
+        android:label="fragment_add_or_edit"
+        tools:layout="@layout/fragment_add_or_edit" >
+        <action
+            android:id="@+id/action_addOrEditFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -32,7 +32,9 @@ class HomeViewModel(
     private val _notes = MutableStateFlow(NotesState())
     val notes  = _notes.asStateFlow()
 
-
+    fun getUserId(): String? {
+        return loginStatusRepository.getUser()
+    }
     fun getNotesByEmailId(emailId: String) {
         viewModelScope.launch {
             Log.d("NotesTAG", emailId)
