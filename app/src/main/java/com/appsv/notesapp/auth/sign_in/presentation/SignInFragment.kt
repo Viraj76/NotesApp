@@ -9,11 +9,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.AuthViewModel
 import com.appsv.notesapp.auth.AuthViewModelFactory
 import com.appsv.notesapp.databinding.FragmentSignInBinding
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
+
 
 class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSignInBinding
@@ -32,17 +33,16 @@ class SignInFragment : Fragment() {
             authViewModel.signInWithGoogle()
         }
 
-        authViewModel.authResult.observe(viewLifecycleOwner) { result ->
-            if (result != null) {
-                authViewModel.setLoggedIn(true)
-                Log.i("SignInFragment", "ID Token: ${result.idToken}")
-                Log.i("SignInFragment", "Given Name: ${result.givenName}")
-                Log.i("SignInFragment", "ID: ${result.id}")
-                Log.i("SignInFragment", "Display Name: ${result.displayName}")
-                Toast.makeText(requireContext(), "Welcome, ${result.displayName}", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "Sign-in was canceled or failed", Toast.LENGTH_SHORT).show()
+        authViewModel.authResult.observe(viewLifecycleOwner) { userLoggedIn ->
+            if(userLoggedIn){
+                val currentUserEmailId = authViewModel.getUserId()
+                if (currentUserEmailId != null) {
+                    val bundle = Bundle()
+                    bundle.putString("userId", currentUserEmailId)
+                    findNavController().navigate(R.id.action_signInFragment_to_homeFragment,bundle)
+                }
             }
+
         }
 
         return binding.root

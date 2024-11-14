@@ -7,12 +7,11 @@ import com.appsv.notesapp.auth.splash.domain.repository.LoginStatusRepository
 class LoginStatusRepositoryImpl(context: Context) : LoginStatusRepository {
 
     private val prefs: SharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-
-    override fun isLoggedIn(): Boolean {
-        return prefs.getBoolean("is_logged_in", false)
+    override fun saveUser(user: String?) {
+        prefs.edit().putString("user", user).apply()
     }
 
-    override fun setLoggedIn(loggedIn: Boolean) {
-        prefs.edit().putBoolean("is_logged_in", loggedIn).apply()
+    override fun getUser(): String? {
+        return prefs.getString("user", null)
     }
 }

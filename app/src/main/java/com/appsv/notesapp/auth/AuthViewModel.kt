@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsv.notesapp.core.domain.models.LoggedInUserDetail
 import com.appsv.notesapp.auth.splash.domain.repository.LoginStatusRepository
-import com.appsv.notesapp.core.data.repository.LoggedInUserRepositoryImpl
 import com.appsv.notesapp.core.domain.repositories.LoggedInUserRepository
 import com.appsv.notesapp.core.presentation.sign_in.GoogleAuthenticator
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -21,56 +20,51 @@ class AuthViewModel(
 ) : ViewModel(), KoinComponent {
 
     private val googleSignIn: GoogleAuthenticator by inject { parametersOf(ctx) }
-    private val loginStatusRepository : LoginStatusRepository by inject()
-    private val loggedInUserRepository : LoggedInUserRepository by inject()
+    private val loginStatusRepository: LoginStatusRepository by inject()
+    private val loggedInUserRepository: LoggedInUserRepository by inject()
 
-    private val _authResult = MutableLiveData<LoggedInUserDetail?>()
-    val authResult: LiveData<LoggedInUserDetail?> get() = _authResult
-
-    fun isUserLoggedIn(): Boolean {
-        return loginStatusRepository.isLoggedIn()
-    }
-
-    fun setLoggedIn(loggedIn: Boolean) {
-        loginStatusRepository.setLoggedIn(loggedIn)
-    }
+    private val _authResult = MutableLiveData<Boolean>()
+    val authResult: LiveData<Boolean> get() = _authResult
 
     fun signInWithGoogle() {
         viewModelScope.launch {
 
             val credential: GoogleIdTokenCredential? = googleSignIn.authenticate()
 
-            if (credential != null){
-                updateLiveData(credential)
-                saveUserInRoomDB()
-                updateLoginStateInSharedPref() // navigate to HomeFragment
-            }
-             else {
-                _authResult.value =null
+            if (credential != null) {
+
+                saveUserInRoomDB(credential)
+                saveUserIDInSharedPref(credential.id)
+                updateLiveData()
+            } else {
+                _authResult.value = false
             }
         }
     }
 
-    private fun saveUserInRoomDB() {
+    private fun saveUserIDInSharedPref(id: String) {
+        loginStatusRepository.saveUser(id)
+    }
+
+    fun getUserId(): String? {
+        return loginStatusRepository.getUser()
+    }
+
+    private fun saveUserInRoomDB(credential: GoogleIdTokenCredential) {
         viewModelScope.launch {
-            loggedInUserRepository.saveUser(authResult.value!!)
-        }
-    }
-
-    private fun updateLiveData(credential: GoogleIdTokenCredential) {
-
-        _authResult.value =
-            LoggedInUserDetail(
+            val loggedInUserDetail = LoggedInUserDetail(
                 idToken = credential.idToken,
                 givenName = credential.givenName,
                 id = credential.id,
                 displayName = credential.displayName,
                 profilePictureUri = credential.profilePictureUri.toString(),
             )
+            loggedInUserRepository.saveUser(loggedInUserDetail)
+        }
     }
 
-    private fun updateLoginStateInSharedPref() {
-        loginStatusRepository.setLoggedIn(true)
+    private fun updateLiveData() {
+        _authResult.value = true
     }
 }
 

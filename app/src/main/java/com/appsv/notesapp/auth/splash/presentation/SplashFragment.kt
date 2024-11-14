@@ -36,8 +36,11 @@ class SplashFragment : Fragment() {
         splashHandler = Handler(Looper.getMainLooper())
         splashHandler?.postDelayed({
 
-            if (authViewModel.isUserLoggedIn()) {
-                findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+            val currentUserEmailId = authViewModel.getUserId()
+            if (currentUserEmailId != null) {
+                val bundle = Bundle()
+                bundle.putString("userId", currentUserEmailId)
+                findNavController().navigate(R.id.action_splashFragment_to_homeFragment,bundle)
             } else {
                 findNavController().navigate(R.id.action_splashFragment_to_signInFragment)
             }

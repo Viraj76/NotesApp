@@ -1,6 +1,8 @@
 package com.appsv.notesapp.auth.splash.domain.repository
 
 interface LoginStatusRepository {
-    fun isLoggedIn(): Boolean
-    fun setLoggedIn(loggedIn: Boolean)
+
+    fun saveUser(user: String?)
+    fun getUser(): String?
 }
+

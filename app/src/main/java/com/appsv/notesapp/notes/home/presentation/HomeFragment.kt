@@ -16,11 +16,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        val idToken = arguments?.getString("idToken")
-        val displayName = arguments?.getString("displayName")
+        val userId = arguments?.getString("userId")
 
-        // Display or use user information
-        Toast.makeText(requireContext(), "Welcome, $displayName", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Welcome, $userId", Toast.LENGTH_SHORT).show()
         return binding.root
     }
 }
