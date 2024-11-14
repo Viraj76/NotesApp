@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/_16sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/rvShowAllNotes"
+        app:layout_constraintBottom_toTopOf="@id/llRvAndText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -101,18 +101,40 @@
     </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvShowAllNotes"
+    <LinearLayout
+        android:id="@+id/llRvAndText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llProfile"
         app:layout_constraintVertical_bias="1.0"
-        tools:listitem="@layout/notes_item" />
+        app:layout_constraintTop_toBottomOf="@+id/llProfile"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvShowAllNotes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:listitem="@layout/notes_item" />
+
+        <TextView
+            android:id="@+id/tvNoNotesText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="No notes available! Tap the Add button to create a new note."
+            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/_40sdp"
+            android:textColor="#D2E4F2"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+
+    </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extended_fab"
