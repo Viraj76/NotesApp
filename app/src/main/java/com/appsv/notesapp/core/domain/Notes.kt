@@ -1,9 +1,13 @@
 package com.appsv.notesapp.core.domain
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.appsv.notesapp.core.util.enums.Priority
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 @Entity(tableName = "Notes")
 data class Notes(
     @PrimaryKey(autoGenerate = true)
@@ -14,4 +18,4 @@ data class Notes(
     var date: Long,
     var priority: Priority,
     var emailId: String
-)
+):Parcelable

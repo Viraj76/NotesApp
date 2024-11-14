@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     //ksp
     id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs")
+
 }
 
 android {

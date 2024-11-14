@@ -37,15 +37,20 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
-            }
-        })
+
         makeStaggeredViewRecyclerView()
 
         val currentUserId = homeViewModel.getUserId()
         onLogOutIconClick()
+
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+////                if(!currentUserId.isNullOrEmpty()){
+////                    findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
+////                }
+//
+//            }
+//        })
 
         getLoggedInUserInfo(currentUserId)
 
@@ -53,7 +58,6 @@ class HomeFragment : Fragment() {
 
         onNoteAddButtonClick()
 
-        Toast.makeText(requireContext(), "Welcome, $currentUserId", Toast.LENGTH_SHORT).show()
         return binding.root
     }
 
@@ -75,7 +79,7 @@ class HomeFragment : Fragment() {
             homeViewModel.getNotesByEmailId(currentUserId!!)
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.lifecycleScope.launch{
                 homeViewModel.notes.collect { state ->
                     when {
                         state.isLoading -> {

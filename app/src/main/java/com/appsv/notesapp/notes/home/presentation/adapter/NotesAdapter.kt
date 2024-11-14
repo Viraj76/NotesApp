@@ -1,9 +1,8 @@
 package com.appsv.notesapp.notes.home.presentation.adapter
-import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavArgumentBuilder
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -13,6 +12,7 @@ import com.appsv.notesapp.core.domain.Notes
 import com.appsv.notesapp.core.util.enums.Priority
 import com.appsv.notesapp.core.util.getTimeAndDateInString
 import com.appsv.notesapp.databinding.NotesItemBinding
+import com.appsv.notesapp.notes.home.presentation.HomeFragmentDirections
 
 
 class NotesAdapter:
@@ -40,15 +40,15 @@ class NotesAdapter:
         )
     }
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
-        val data=differ.currentList[position]
-        holder.binding.cvTitle.text=data.title
-        holder.binding.cvSubtitle.text=data.subTitle
-        holder.binding.cvDate.text= getTimeAndDateInString(data.date)
-        if(data.subTitle.isEmpty()){
+        val currentNote=differ.currentList[position]
+        holder.binding.cvTitle.text=currentNote.title
+        holder.binding.cvSubtitle.text=currentNote.subTitle
+        holder.binding.cvDate.text= getTimeAndDateInString(currentNote.date)
+        if(currentNote.subTitle.isEmpty()){
             holder.binding.cvSubtitle.visibility = View.GONE
         }
 
-        when(data.priority){
+        when(currentNote.priority){
             Priority.LOW->
                 holder.binding.cvOval.setBackgroundResource(R.drawable.green_oval)
             Priority.MEDIUM->
@@ -57,10 +57,20 @@ class NotesAdapter:
                 holder.binding.cvOval.setBackgroundResource(R.drawable.red_oval)
         }
 
-//        holder.binding.root.setOnClickListener {
-//            val action = HomeFragmentDirections.actionHomeFragment2ToEditFragment(data)
+        holder.binding.notesItemCard.setOnClickListener {
+            val bundle = Bundle()
+            bundle.apply {
+                putInt("id", currentNote.id!!)
+                putString("title",currentNote.title)
+                putString("sub_title",currentNote.subTitle)
+                putInt("priority",currentNote.priority.ordinal)
+                putString("description",currentNote.notes)
+                putBoolean("editMode",true)
+            }
+            Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_addOrEditFragment,bundle)
+//            val action = HomeFragmentDirections.actionHomeFragmentToAddOrEditFragment()
 //            Navigation.findNavController(it).navigate(action)
-//        }
+        }
     }
     override fun getItemCount(): Int = differ.currentList.size
 }

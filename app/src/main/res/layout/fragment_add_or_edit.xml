@@ -151,6 +151,7 @@
                 android:id="@+id/ivLowPriority"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:src="@drawable/baseline_done_24"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/green_oval" />
             <ImageView

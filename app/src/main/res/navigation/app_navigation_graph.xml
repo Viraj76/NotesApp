@@ -53,5 +53,10 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="selected_note"
+            />
+
+
     </fragment>
 </navigation>
