@@ -34,7 +34,7 @@ interface NotesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdateNote(note: Notes)
 
-    @Query("SELECT * FROM Notes WHERE emailId = :emailId")
+    @Query("SELECT * FROM Notes WHERE emailId = :emailId ORDER BY date DESC")
     fun getNotesByEmailId(emailId: String): Flow<List<Notes>>
 
     @Query("DELETE FROM Notes WHERE id = :noteId")

@@ -8,24 +8,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
 import com.appsv.notesapp.databinding.FragmentHomeBinding
-import com.appsv.notesapp.notes.NotesViewModel
+import com.appsv.notesapp.notes.home.presentation.adapter.NotesAdapter
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     private lateinit var binding : FragmentHomeBinding
-
+    private lateinit var notesAdapter: NotesAdapter
     private val homeViewModel: HomeViewModel by lazy {
         ViewModelProvider(this, ViewModelFactoryForActivityContext(requireActivity()))[HomeViewModel::class.java]
     }
@@ -36,18 +37,29 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
+            }
+        })
+        makeStaggeredViewRecyclerView()
 
         val currentUserId = homeViewModel.getUserId()
         onLogOutIconClick()
 
         getLoggedInUserInfo(currentUserId)
 
-        getNotes(currentUserId)
+        getNotesAndShow(currentUserId)
 
         onNoteAddButtonClick()
 
         Toast.makeText(requireContext(), "Welcome, $currentUserId", Toast.LENGTH_SHORT).show()
         return binding.root
+    }
+
+    private fun makeStaggeredViewRecyclerView() {
+        val staggeredGridLayoutManager = (StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL))
+        binding.rvShowAllNotes.layoutManager=staggeredGridLayoutManager
     }
 
     private fun onNoteAddButtonClick() {
@@ -57,7 +69,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getNotes(currentUserId: String?) {
+    private fun getNotesAndShow(currentUserId: String?) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             homeViewModel.getNotesByEmailId(currentUserId!!)
@@ -83,7 +95,9 @@ class HomeFragment : Fragment() {
                             binding.progressIndicator.visibility = View.GONE
                             binding.tvNoNotesText.visibility = View.GONE
                             binding.rvShowAllNotes.visibility = View.VISIBLE
-
+                            notesAdapter = NotesAdapter()
+                            binding.rvShowAllNotes.adapter = notesAdapter
+                            notesAdapter.differ.submitList(state.notesList)
                             // Set up or update RecyclerView adapter with the notesList
                             // notesAdapter.submitList(state.notesList)
                         }
