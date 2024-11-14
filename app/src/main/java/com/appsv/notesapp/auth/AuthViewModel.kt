@@ -19,7 +19,7 @@ class AuthViewModel(
     ctx: Context
 ) : ViewModel(), KoinComponent {
 
-    private val googleSignIn: GoogleAuthenticator by inject { parametersOf(ctx) }
+    private val googleAuthenticator: GoogleAuthenticator by inject { parametersOf(ctx) }
     private val loginStatusRepository: LoginStatusRepository by inject()
     private val loggedInUserRepository: LoggedInUserRepository by inject()
 
@@ -28,16 +28,14 @@ class AuthViewModel(
 
     fun signInWithGoogle() {
         viewModelScope.launch {
-
-            val credential: GoogleIdTokenCredential? = googleSignIn.authenticate()
+            val credential = googleAuthenticator.authenticate()
 
             if (credential != null) {
-
                 saveUserInRoomDB(credential)
                 saveUserIDInSharedPref(credential.id)
-                updateLiveData()
+                updateLiveData(true)
             } else {
-                _authResult.value = false
+                updateLiveData(false)
             }
         }
     }
@@ -63,9 +61,7 @@ class AuthViewModel(
         }
     }
 
-    private fun updateLiveData() {
-        _authResult.value = true
+    private fun updateLiveData(isLoggedIn: Boolean) {
+        _authResult.value = isLoggedIn
     }
 }
-
-

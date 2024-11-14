@@ -6,13 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.AuthViewModel
-import com.appsv.notesapp.auth.AuthViewModelFactory
+import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
 import com.appsv.notesapp.databinding.FragmentSignInBinding
 
 
@@ -20,7 +19,7 @@ class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSignInBinding
 
     private val authViewModel: AuthViewModel by lazy {
-        ViewModelProvider(this, AuthViewModelFactory(requireActivity()))[AuthViewModel::class.java]
+        ViewModelProvider(this, ViewModelFactoryForActivityContext(requireActivity()))[AuthViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -34,6 +33,7 @@ class SignInFragment : Fragment() {
         }
 
         authViewModel.authResult.observe(viewLifecycleOwner) { userLoggedIn ->
+            Log.d("LOGGG", userLoggedIn.toString())
             if(userLoggedIn){
                 val currentUserEmailId = authViewModel.getUserId()
                 if (currentUserEmailId != null) {
