@@ -105,7 +105,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-
+        tools:listitem="@layout/notes_item"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/llProfile"
         app:layout_constraintVertical_bias="1.0" />
 
@@ -118,12 +119,11 @@
         android:text="Add"
         android:textColor="@android:color/white"
         android:textSize="@dimen/_15ssp"
-        app:backgroundTint="@color/dark_shade_blue"
+        app:backgroundTint="@color/light_blue"
         app:icon="@drawable/baseline_add_24"
         app:iconPadding="@dimen/_2sdp"
         app:iconSize="@dimen/_20sdp"
         app:iconTint="@android:color/white"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="HardcodedText" />
