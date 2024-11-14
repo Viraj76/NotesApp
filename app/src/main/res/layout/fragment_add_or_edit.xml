@@ -24,6 +24,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_10sdp">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,6 +32,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/_3sdp"
                 android:layout_marginStart="@dimen/_5sdp">
+
                 <ImageView
                     android:id="@+id/ivBackButton"
                     android:layout_width="wrap_content"
@@ -43,6 +45,7 @@
                     android:visibility="visible"
                     android:scaleType="center"
                     android:src="@drawable/baseline_keyboard_backspace_24" />
+
                 <ImageView
                     android:id="@+id/ivAddIcon"
                     android:layout_width="wrap_content"
@@ -67,11 +70,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal"
-                >
+                android:layout_weight="1">
+
                 <TextView
                     android:id="@+id/tvAddText"
                     android:layout_width="wrap_content"
@@ -83,6 +87,7 @@
                     android:textSize="@dimen/_20ssp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
+
                 <TextView
                     android:id="@+id/tvEditText"
                     android:layout_width="wrap_content"
@@ -94,11 +99,23 @@
                     android:textSize="@dimen/_20ssp"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
-
             </LinearLayout>
 
-
+            <ImageView
+                android:id="@+id/ivDeleteIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:src="@drawable/baseline_delete_24"
+                android:visibility="gone"
+                app:tint="@color/red" />
         </LinearLayout>
+
 
 
         <EditText

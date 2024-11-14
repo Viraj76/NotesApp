@@ -1,5 +1,6 @@
 package com.appsv.notesapp.notes.add_edit
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -43,7 +44,29 @@ private val isEditModeLiveData = MutableLiveData<Boolean>(false)
         onPriorityOvalsClick()
         onAddNoteButtonClicked()
 
+        onDeleteIconClick()
+
         return binding.root
+    }
+
+    private fun onDeleteIconClick() {
+        binding.ivDeleteIcon.setOnClickListener {
+                val builder = AlertDialog.Builder(requireActivity())
+                val alertDialog = builder.create()
+                builder
+                    .setTitle("Delete Note")
+                    .setMessage("Are you sure you want to delete this note?")
+                    .setPositiveButton("Yes"){ _, _ ->
+                        notesViewModel.deleteNoteById(arguments?.getInt("id")!!)
+                        findNavController().navigate(R.id.action_addOrEditFragment_to_homeFragment)
+                    }
+                    .setNegativeButton("No"){ _, _ ->
+                        alertDialog.dismiss()
+                    }
+                    .show()
+                    .setCancelable(false)
+            }
+
     }
 
     private fun setNotesDetailOnFields() {
@@ -52,18 +75,18 @@ private val isEditModeLiveData = MutableLiveData<Boolean>(false)
 
             val selectedNotes = it
 
-            val isEditMode = selectedNotes.getBoolean("editMode")
-
-            if (isEditMode){
+            if (selectedNotes.getBoolean("editMode")){
                 isEditModeLiveData.value = true
                 editMode(selectedNotes)
             }
 
             else{
+                // Add Mode
                 binding.ivAddIcon.visibility = View.VISIBLE
                 binding.tvAddText.visibility = View.VISIBLE
                 binding.ivEditIcon.visibility = View.GONE
                 binding.tvEditText.visibility = View.GONE
+                binding.ivDeleteIcon.visibility = View.GONE
             }
 
         }
@@ -75,6 +98,7 @@ private val isEditModeLiveData = MutableLiveData<Boolean>(false)
         binding.tvAddText.visibility = View.GONE
         binding.ivEditIcon.visibility = View.VISIBLE
         binding.tvEditText.visibility = View.VISIBLE
+        binding.ivDeleteIcon.visibility = View.VISIBLE
 
         val title = selectedNotes.getString("title")
         val subTitle = selectedNotes.getString("sub_title")
