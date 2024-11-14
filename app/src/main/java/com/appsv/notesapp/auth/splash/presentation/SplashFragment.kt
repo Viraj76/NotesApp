@@ -35,13 +35,13 @@ class SplashFragment : Fragment() {
     private fun checkLoginStatus() {
         splashHandler = Handler(Looper.getMainLooper())
         splashHandler?.postDelayed({
-            if (authViewModel.isUserLoggedIn()) {
-                Toast.makeText(requireContext(), "Already logged in", Toast.LENGTH_SHORT).show()
+
+//            if (authViewModel.isUserLoggedIn()) {
+//
 //                findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
-            } else {
-                Toast.makeText(requireContext(), "Please sign in", Toast.LENGTH_SHORT).show()
+//            } else {
                 findNavController().navigate(R.id.action_splashFragment_to_signInFragment)
-            }
+//            }
         }, 2500)
     }
 

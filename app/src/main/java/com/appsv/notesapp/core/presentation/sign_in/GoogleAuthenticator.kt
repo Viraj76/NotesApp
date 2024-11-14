@@ -1,6 +1,7 @@
 package com.appsv.notesapp.core.presentation.sign_in
 
 import android.content.Context
+import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -8,6 +9,8 @@ import androidx.credentials.GetCredentialResponse
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import java.security.MessageDigest
+import java.util.UUID
 
 /**
  * Handles user authentication via Gmail accounts.
@@ -16,19 +19,26 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 
 class GoogleAuthenticator(private val context: Context) {
 
-    private val clientID: String = "401047126786-i6cqr63g6153nvpvd2vc2kco89j2omai.apps.googleusercontent.com"
+    private val clientID: String =
+        "401047126786-i6cqr63g6153nvpvd2vc2kco89j2omai.apps.googleusercontent.com"
 
     private val credentialManager = CredentialManager.create(context)
 
-    private val request = GetGoogleIdOption.Builder()
-        .setFilterByAuthorizedAccounts(false)
+
+    private val request: GetCredentialRequest = GetGoogleIdOption.Builder()
+        .setFilterByAuthorizedAccounts(false) // initial true, gives error
         .setServerClientId(clientID)
-        .setAutoSelectEnabled(true)
+//        .setAutoSelectEnabled(true)
         .build().let {
             GetCredentialRequest.Builder()
                 .addCredentialOption(it)
                 .build()
         }
+
+
+    suspend fun logOut(){
+        credentialManager.clearCredentialState(ClearCredentialStateRequest())
+    }
 
     suspend fun authenticate(): GoogleIdTokenCredential? = try {
         val result = credentialManager.getCredential(request = request, context = context)
