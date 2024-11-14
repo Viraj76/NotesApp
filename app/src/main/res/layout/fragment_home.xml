@@ -1,14 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cobalt_blue"
     tools:context=".notes.home.presentation.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/llProfile"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_6sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/rvShowAllNotes"
+        android:orientation="horizontal"
+        >
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:id="@+id/circular_text"
+                android:layout_width="@dimen/_45ssp"
+                android:layout_height="@dimen/_45ssp"
+                android:background="@drawable/circular_bg"
+                android:text="A"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                android:layout_marginEnd="@dimen/_8sdp"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/circular_image"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                android:src="@drawable/google_image"
+                android:background="@drawable/circular_bg"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start"
+            android:layout_weight="2"
+            >
+
+            <TextView
+                android:id="@+id/welcome_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome!"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Viraj Gupta"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16ssp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/logout_icon"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/baseline_logout_24"
+            android:scaleType="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvShowAllNotes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/llProfile"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extended_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="Add"
+        android:text="Add"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_15ssp"
+        app:backgroundTint="@color/dark_shade_blue"
+        app:icon="@drawable/baseline_add_24"
+        app:iconPadding="@dimen/_2sdp"
+        app:iconSize="@dimen/_20sdp"
+        app:iconTint="@android:color/white"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
