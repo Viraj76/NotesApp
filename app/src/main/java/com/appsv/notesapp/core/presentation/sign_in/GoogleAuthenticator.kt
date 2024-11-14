@@ -19,8 +19,7 @@ import java.util.UUID
 
 class GoogleAuthenticator(private val context: Context) {
 
-    private val clientID: String =
-        "401047126786-i6cqr63g6153nvpvd2vc2kco89j2omai.apps.googleusercontent.com"
+    private val clientID: String = "401047126786-i6cqr63g6153nvpvd2vc2kco89j2omai.apps.googleusercontent.com"
 
     private val credentialManager = CredentialManager.create(context)
 
