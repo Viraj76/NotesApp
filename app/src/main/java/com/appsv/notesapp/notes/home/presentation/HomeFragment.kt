@@ -9,20 +9,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.net.toUri
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
 import com.appsv.notesapp.databinding.FragmentHomeBinding
+import com.appsv.notesapp.notes.NotesViewModel
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     private lateinit var binding : FragmentHomeBinding
+
     private val homeViewModel: HomeViewModel by lazy {
         ViewModelProvider(this, ViewModelFactoryForActivityContext(requireActivity()))[HomeViewModel::class.java]
     }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,9 +42,51 @@ class HomeFragment : Fragment() {
 
         getLoggedInUserInfo(currentUserId)
 
+        getNotes(currentUserId)
+
 
         Toast.makeText(requireContext(), "Welcome, $currentUserId", Toast.LENGTH_SHORT).show()
         return binding.root
+    }
+
+    private fun getNotes(currentUserId: String?) {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            homeViewModel.getNotesByEmailId(currentUserId!!)
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.notes.collect { state ->
+                    when {
+                        state.isLoading -> {
+                            Log.d("NotesTAG", "loading..")
+                            binding.progressIndicator.visibility = View.VISIBLE
+                            binding.tvNoNotesText.visibility = View.GONE
+                            binding.rvShowAllNotes.visibility = View.GONE
+                        }
+                        state.notesList.isEmpty() -> {
+                            Log.d("NotesTAG", "empty")
+                            binding.progressIndicator.visibility = View.GONE
+                            binding.tvNoNotesText.visibility = View.VISIBLE
+                            binding.rvShowAllNotes.visibility = View.GONE
+                        }
+                        else -> {
+                            Log.d("NotesTAG", "list")
+                            binding.progressIndicator.visibility = View.GONE
+                            binding.tvNoNotesText.visibility = View.GONE
+                            binding.rvShowAllNotes.visibility = View.VISIBLE
+
+                            // Set up or update RecyclerView adapter with the notesList
+                            // notesAdapter.submitList(state.notesList)
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
     }
 
     private fun getLoggedInUserInfo(currentUserId: String?) {

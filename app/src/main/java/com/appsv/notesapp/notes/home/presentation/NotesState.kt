@@ -1,3 +1,8 @@
 package com.appsv.notesapp.notes.home.presentation
 
-data class NotesState()
+import com.appsv.notesapp.core.domain.Notes
+
+data class NotesState(
+    val isLoading : Boolean = true,
+    val notesList : List<Notes> = emptyList()
+)

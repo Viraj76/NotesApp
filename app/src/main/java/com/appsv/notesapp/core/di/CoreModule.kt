@@ -2,7 +2,7 @@ package com.appsv.notesapp.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.appsv.notesapp.core.data.local.room.GoogleAuthResultDao
+import com.appsv.notesapp.core.data.local.room.LoggedInUserDao
 import com.appsv.notesapp.core.data.local.room.NotesAppRoomDB
 import com.appsv.notesapp.core.data.repository.LoggedInUserRepositoryImpl
 import com.appsv.notesapp.core.domain.repositories.LoggedInUserRepository
@@ -12,16 +12,16 @@ import org.koin.dsl.module
 
 
 fun provideRoomDatabase(context: Context) =
-    Room.databaseBuilder(context, NotesAppRoomDB::class.java, "Task DataBase")
+    Room.databaseBuilder(context, NotesAppRoomDB::class.java, "Notes DataBase")
         .allowMainThreadQueries()
         .fallbackToDestructiveMigration()
         .build()
 
-fun provideDao(notesAppRoomDB: NotesAppRoomDB) = notesAppRoomDB.googleAuthResultDao()
+fun provideDao(notesAppRoomDB: NotesAppRoomDB) = notesAppRoomDB.loggedInUserDetailDao()
 
 
-fun provideTaskRepository(googleAuthResultDao: GoogleAuthResultDao): LoggedInUserRepository {
-    return LoggedInUserRepositoryImpl(googleAuthResultDao)
+fun provideLoggedInUserRepository(loggedInUserDao: LoggedInUserDao): LoggedInUserRepository {
+    return LoggedInUserRepositoryImpl(loggedInUserDao)
 }
 
 
@@ -29,5 +29,5 @@ fun provideTaskRepository(googleAuthResultDao: GoogleAuthResultDao): LoggedInUse
 val coreModule = module {
     single { provideRoomDatabase(androidContext()) }
     single { provideDao(get()) }
-    single { provideTaskRepository(get()) }
+    single { provideLoggedInUserRepository(get()) }
 }

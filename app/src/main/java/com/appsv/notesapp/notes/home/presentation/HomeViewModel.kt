@@ -5,11 +5,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsv.notesapp.auth.splash.domain.repository.LoginStatusRepository
+import com.appsv.notesapp.core.domain.Notes
 import com.appsv.notesapp.core.domain.models.LoggedInUserDetail
 import com.appsv.notesapp.core.domain.repositories.LoggedInUserRepository
+import com.appsv.notesapp.core.domain.repositories.NotesRepository
 import com.appsv.notesapp.core.presentation.sign_in.GoogleAuthenticator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -24,7 +27,22 @@ class HomeViewModel(
     private val googleSignIn: GoogleAuthenticator by inject { parametersOf(context) }
     private val loggedInUserRepository: LoggedInUserRepository by inject()
     private val loginStatusRepository: LoginStatusRepository by inject()
+    private  val notesRepository: NotesRepository by inject()
 
+    private val _notes = MutableStateFlow(NotesState())
+    val notes  = _notes.asStateFlow()
+
+
+    fun getNotesByEmailId(emailId: String) {
+        viewModelScope.launch {
+            Log.d("NotesTAG", emailId)
+            notesRepository.getNotesByEmailId(emailId).collect { notesList ->
+                Log.d("NotesTAG", "Inside ${notesList}")
+
+                _notes.value = notes.value.copy(isLoading = false,notesList = notesList)
+            }
+        }
+    }
 
 
     fun onLoggingOutUser(){
@@ -44,9 +62,9 @@ class HomeViewModel(
     }
 
     suspend fun getUserById(id: String): Flow<LoggedInUserDetail?> {
-
         return loggedInUserRepository.getUserById(id)
     }
+
 
 
 
