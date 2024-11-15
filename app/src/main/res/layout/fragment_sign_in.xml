@@ -7,11 +7,58 @@
     android:background="@color/cobalt_blue"
     android:padding="@dimen/_16sdp">
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clNoInternet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <LinearLayout
+            android:id="@+id/llNoInternet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="visible"
+            >
+            <ImageView
+                android:id="@+id/ivNoWifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:visibility="visible"
+                android:scaleType="center"
+                android:src="@drawable/baseline_wifi_off_24"
+                app:tint="@color/red" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Internet! Please check your connection for Google Sign-In."
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
    <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/clSignIn"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintEnd_toEndOf="parent"
+       android:visibility="gone"
        app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintBottom_toBottomOf="parent"
        >
@@ -22,6 +69,7 @@
            android:text="@string/sign_in"
            android:textSize="@dimen/_24ssp"
            android:textStyle="bold"
+           android:textColor="@color/white"
            app:layout_constraintTop_toTopOf="parent"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintEnd_toEndOf="parent"/>
@@ -32,6 +80,7 @@
            android:layout_height="wrap_content"
            android:text="@string/please_fill_the_form_to_continue"
            android:textSize="@dimen/_16ssp"
+           android:textColor="@color/white"
            app:layout_constraintTop_toBottomOf="@id/tvSignIn"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +138,7 @@
            android:layout_height="wrap_content"
            android:text="@string/or_continue_with"
            android:textSize="@dimen/_14ssp"
+           android:textColor="@color/white"
            app:layout_constraintTop_toBottomOf="@id/btnSignIn"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintEnd_toEndOf="parent"
