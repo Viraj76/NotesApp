@@ -9,7 +9,9 @@ import com.appsv.notesapp.core.domain.repositories.LoggedInUserRepository
 import com.appsv.notesapp.core.domain.repositories.NotesRepository
 import com.appsv.notesapp.core.presentation.sign_in.GoogleAuthenticator
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -31,6 +33,17 @@ class HomeViewModel(
 
     private val _currentUser = MutableStateFlow<String?>(null) // Allow null values
     val currentUser = _currentUser.asStateFlow()
+
+    private var _logOutDialogState = MutableStateFlow(false)
+    val logOutDialogState = _logOutDialogState.asStateFlow()
+
+    fun showLogOutConfirmationDialog(){
+        _logOutDialogState.value = true
+    }
+
+    fun hideLogOutConfirmationDialog() {
+        _logOutDialogState.value = false
+    }
 
     init {
         // get currentUser email Id

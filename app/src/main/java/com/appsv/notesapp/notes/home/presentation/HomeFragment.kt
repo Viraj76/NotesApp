@@ -19,10 +19,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
 import com.appsv.notesapp.base.MainActivity
+import com.appsv.notesapp.core.util.hideConfirmationDialog
+import com.appsv.notesapp.core.util.showConfirmationDialog
 import com.appsv.notesapp.databinding.FragmentHomeBinding
 import com.appsv.notesapp.notes.home.presentation.adapter.NotesAdapter
 import com.bumptech.glide.Glide
@@ -34,12 +37,12 @@ import org.koin.core.component.getScopeId
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var notesAdapter: NotesAdapter
+    private var isScrollingUp = false
+    private var lastFirstVisibleItem = 0
 
-
-    private val homeViewModel: HomeViewModel by viewModels{
+    private val homeViewModel: HomeViewModel by viewModels {
         ViewModelFactoryForActivityContext(requireActivity())
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +52,9 @@ class HomeFragment : Fragment() {
         getLoggedInUserInfo()
         getNotesAndShow()
         makeStaggeredViewRecyclerView()
+        setupFabScrollBehavior()
         onLogOutIconClick()
+        observeLogOutDialogState()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -62,11 +67,62 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    private fun observeLogOutDialogState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            homeViewModel.logOutDialogState.collect{state->
 
+                if(state){
+                    showConfirmationDialog(
+                        icon = R.drawable.baseline_logout_24,
+                        title = "Log Out",
+                        message = "Are you sure you want to log out?",
+                        positiveText = "Yes",
+                        negativeText = "No",
+                        positiveAction = {
+                            homeViewModel.onLoggingOutUser()
+                            findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
+                        },
+                        negativeAction = {homeViewModel.hideLogOutConfirmationDialog()}
+                    )
+                }
+                else{
+                    hideConfirmationDialog()
+                }
+            }
+        }
 
+    }
 
+    private fun setupFabScrollBehavior() {
+        binding.rvShowAllNotes.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            private var lastScrollY = 0
+            private val SCROLL_THRESHOLD = 5 // Lower value = more sensitive. Adjust this value to change sensitivity
 
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
+                // Track vertical scroll amount
+                lastScrollY += dy
+
+                // Check if absolute scroll amount exceeds threshold
+                if (Math.abs(lastScrollY) > SCROLL_THRESHOLD) {
+                    if (lastScrollY > 0) {
+                        // Scrolling down
+                        if (binding.fabAddNote.isShown) {
+                            binding.fabAddNote.hide()
+                        }
+                    } else {
+                        // Scrolling up
+                        if (!binding.fabAddNote.isShown) {
+                            binding.fabAddNote.show()
+                        }
+                    }
+                    // Reset scroll tracker after handling
+                    lastScrollY = 0
+                }
+            }
+        })
+    }
     private fun makeStaggeredViewRecyclerView() {
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         binding.rvShowAllNotes.layoutManager = staggeredGridLayoutManager
@@ -79,7 +135,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun getNotesAndShow() {
-
         viewLifecycleOwner.lifecycleScope.launch {
             homeViewModel.notes.collect { state ->
                 when {
@@ -137,19 +192,20 @@ class HomeFragment : Fragment() {
 
     private fun onLogOutIconClick() {
         binding.logoutIcon.setOnClickListener {
-            showDialogToConfirm()
+            homeViewModel.showLogOutConfirmationDialog()
         }
     }
 
     private fun showDialogToConfirm() {
         val builder = AlertDialog.Builder(requireActivity())
         val alertDialog = builder.create()
+
         builder
+            .setIcon(R.drawable.baseline_logout_24)
             .setTitle("Log Out")
             .setMessage("Are you sure you want to log out?")
             .setPositiveButton("Yes") { _, _ ->
                 homeViewModel.onLoggingOutUser()
-
                 findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
             }
             .setNegativeButton("No") { _, _ ->
@@ -159,4 +215,3 @@ class HomeFragment : Fragment() {
             .show()
     }
 }
-

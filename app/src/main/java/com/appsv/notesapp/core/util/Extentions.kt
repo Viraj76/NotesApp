@@ -19,7 +19,7 @@ fun Fragment.showDialog(message: String){
 }
 
 
-fun Fragment.hideDialog(){
+fun hideDialog(){
     dialog?.dismiss()
 }
 
@@ -33,6 +33,43 @@ fun Fragment.showSignInDoneDialog(){
 }
 
 
-fun Fragment.hidePostDoneDialog(){
+fun hidePostDoneDialog(){
     doneDialog?.dismiss()
 }
+
+
+
+private var confirmationDialog: AlertDialog? = null
+
+fun Fragment.showConfirmationDialog(
+    icon: Int,
+    title: String,
+    message: String,
+    positiveText: String,
+    positiveAction: () -> Unit,
+    negativeText: String,
+    negativeAction: (() -> Unit)? = null
+) {
+    confirmationDialog = AlertDialog.Builder(requireContext()).apply {
+        setIcon(icon)
+        setTitle(title)
+        setMessage(message)
+        setPositiveButton(positiveText) { _, _ ->
+            positiveAction()
+            hideDialog()
+        }
+        setNegativeButton(negativeText) { _, _ ->
+            negativeAction?.invoke()
+            hideDialog()
+        }
+        setCancelable(false)
+    }.create()
+
+    confirmationDialog?.show()
+}
+
+fun hideConfirmationDialog() {
+    confirmationDialog?.dismiss()
+    confirmationDialog = null
+}
+

@@ -62,6 +62,7 @@ private val isEditModeLiveData = MutableLiveData<Boolean>(false)
                 val builder = AlertDialog.Builder(requireActivity())
                 val alertDialog = builder.create()
                 builder
+                    .setIcon(R.drawable.baseline_delete_24)
                     .setTitle("Delete Note")
                     .setMessage("Are you sure you want to delete this note?")
                     .setPositiveButton("Yes"){ _, _ ->
