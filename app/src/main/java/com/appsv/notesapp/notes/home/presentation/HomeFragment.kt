@@ -70,7 +70,6 @@ class HomeFragment : Fragment() {
     private fun observeLogOutDialogState() {
         viewLifecycleOwner.lifecycleScope.launch {
             homeViewModel.logOutDialogState.collect{state->
-
                 if(state){
                     showConfirmationDialog(
                         icon = R.drawable.baseline_logout_24,

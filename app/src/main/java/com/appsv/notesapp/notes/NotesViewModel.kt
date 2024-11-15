@@ -7,6 +7,7 @@ import com.appsv.notesapp.core.domain.Notes
 import com.appsv.notesapp.core.domain.repositories.NotesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -23,6 +24,18 @@ class NotesViewModel() : ViewModel(), KoinComponent {
     val noteAddedOrUpdated: StateFlow<Boolean> = _noteAddedOrUpdated
 
     private val loginStatusRepository: LoginStatusRepository by inject()
+
+    private var _deleteDialogState = MutableStateFlow(false)
+    val deleteDialogState = _deleteDialogState.asStateFlow()
+
+    fun showDeleteConfirmationDialogState(){
+        _deleteDialogState.value = true
+    }
+
+    fun hideDeleteConfirmationDialogState() {
+        _deleteDialogState.value = false
+    }
+
 
 
     fun getUserId(): String? {

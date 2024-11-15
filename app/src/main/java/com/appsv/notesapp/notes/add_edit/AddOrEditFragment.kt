@@ -22,9 +22,13 @@ import com.appsv.notesapp.core.domain.Notes
 import com.appsv.notesapp.core.util.Toasts
 import com.appsv.notesapp.core.util.enums.Priority
 import com.appsv.notesapp.core.util.getCurrentLocalDateAndTimeInLong
+import com.appsv.notesapp.core.util.hideConfirmationDialog
+import com.appsv.notesapp.core.util.showConfirmationDialog
 
 import com.appsv.notesapp.databinding.FragmentAddOrEditBinding
 import com.appsv.notesapp.notes.NotesViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -54,28 +58,57 @@ private val isEditModeLiveData = MutableLiveData<Boolean>(false)
 
         onDeleteIconClick()
 
+        collectDeleteDialogState()
+
         return binding.root
+    }
+
+    private fun collectDeleteDialogState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            notesViewModel.deleteDialogState.collect {state->
+                if(state){
+                    showConfirmationDialog(
+                        icon = R.drawable.baseline_delete_24,
+                        title = "Delete Note",
+                        message = "Are you sure you want to delete this note?",
+                        positiveText = "Yes",
+                        negativeText = "No",
+                        positiveAction = {
+                            notesViewModel.deleteNoteById(arguments?.getInt("id")!!)
+                            findNavController().navigate(R.id.action_addOrEditFragment_to_homeFragment)
+                        },
+                        negativeAction = {
+                           notesViewModel.hideDeleteConfirmationDialogState()
+                        }
+                    )
+
+                }
+                else{
+                    hideConfirmationDialog()
+                }
+            }
+        }
     }
 
     private fun onDeleteIconClick() {
         binding.ivDeleteIcon.setOnClickListener {
-                val builder = AlertDialog.Builder(requireActivity())
-                val alertDialog = builder.create()
-                builder
-                    .setIcon(R.drawable.baseline_delete_24)
-                    .setTitle("Delete Note")
-                    .setMessage("Are you sure you want to delete this note?")
-                    .setPositiveButton("Yes"){ _, _ ->
-                        notesViewModel.deleteNoteById(arguments?.getInt("id")!!)
-                        findNavController().navigate(R.id.action_addOrEditFragment_to_homeFragment)
-                    }
-                    .setNegativeButton("No"){ _, _ ->
-                        alertDialog.dismiss()
-                    }
-                    .show()
-                    .setCancelable(false)
+            notesViewModel.showDeleteConfirmationDialogState()
+//                val builder = AlertDialog.Builder(requireActivity())
+//                val alertDialog = builder.create()
+//                builder
+//                    .setIcon(R.drawable.baseline_delete_24)
+//                    .setTitle("Delete Note")
+//                    .setMessage("Are you sure you want to delete this note?")
+//                    .setPositiveButton("Yes"){ _, _ ->
+//                        notesViewModel.deleteNoteById(arguments?.getInt("id")!!)
+//                        findNavController().navigate(R.id.action_addOrEditFragment_to_homeFragment)
+//                    }
+//                    .setNegativeButton("No"){ _, _ ->
+//                        alertDialog.dismiss()
+//                    }
+//                    .show()
+//                    .setCancelable(false)
             }
-
     }
 
     private fun setNotesDetailOnFields() {
