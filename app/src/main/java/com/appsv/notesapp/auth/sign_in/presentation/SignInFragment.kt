@@ -14,7 +14,14 @@ import androidx.navigation.fragment.findNavController
 import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.AuthViewModel
 import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
+import com.appsv.notesapp.core.util.Toasts
+import com.appsv.notesapp.core.util.hideDialog
+import com.appsv.notesapp.core.util.hidePostDoneDialog
+import com.appsv.notesapp.core.util.showDialog
+import com.appsv.notesapp.core.util.showSignInDoneDialog
 import com.appsv.notesapp.databinding.FragmentSignInBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -35,28 +42,44 @@ class SignInFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 activity?.finish()
-
             }
         })
 
         observeInternetConnection()
-        binding.signInButton.setOnClickListener {
-            authViewModel.signInWithGoogle()
-        }
 
-        authViewModel.authResult.observe(viewLifecycleOwner) { userLoggedIn ->
-            Log.d("LOGGG", userLoggedIn.toString())
-            if(userLoggedIn){
-                val currentUserEmailId = authViewModel.getUserId()
-                if (currentUserEmailId != null) {
-                    val bundle = Bundle()
-                    bundle.putString("userId", currentUserEmailId)
-                    findNavController().navigate(R.id.action_signInFragment_to_homeFragment,bundle)
+
+        onSignInButtonClicked()
+        viewLifecycleOwner.lifecycleScope.launch {
+            authViewModel.authResult.collectLatest { userLoggedIn ->
+                Log.d("VFJFJFJF", "$userLoggedIn")
+                if (userLoggedIn) {
+                    val currentUserEmailId = authViewModel.getUserId()
+                    if (currentUserEmailId != null) {
+                        val bundle = Bundle()
+                        bundle.putString("userId", currentUserEmailId)
+                        hideDialog()
+                        showSignInDoneDialog()
+                        delay(1450)
+                        hidePostDoneDialog()
+                        findNavController().navigate(R.id.action_signInFragment_to_homeFragment, bundle)
+                    }
+                } else {
+                    Log.d("VFJFJFJF", "Error")
+                    Toasts.showSimpleToast("SignIn denied!", requireContext())
+                    hideDialog()
                 }
             }
-
         }
+
+
         return binding.root
+    }
+
+    private fun onSignInButtonClicked() {
+        binding.signInButton.setOnClickListener {
+            showDialog("Signing you.. please wait")
+            authViewModel.signInWithGoogle()
+        }
     }
 
     /**

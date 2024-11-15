@@ -5,14 +5,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsv.notesapp.auth.splash.domain.repository.LoginStatusRepository
-import com.appsv.notesapp.core.domain.Notes
 import com.appsv.notesapp.core.domain.models.LoggedInUserDetail
 import com.appsv.notesapp.core.domain.repositories.LoggedInUserRepository
 import com.appsv.notesapp.core.domain.repositories.NotesRepository
 import com.appsv.notesapp.core.presentation.sign_in.GoogleAuthenticator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -52,9 +50,9 @@ class HomeViewModel(
         clearCredentialManagerState()
     }
 
-    private fun clearCredentialManagerState() {
+    fun clearCredentialManagerState() {
         viewModelScope.launch {
-            googleSignIn.logOut()
+            googleSignIn.clearCredentialState()
         }
     }
 

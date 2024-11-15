@@ -1,6 +1,7 @@
 package com.appsv.notesapp.auth
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +13,9 @@ import com.appsv.notesapp.core.presentation.sign_in.GoogleAuthenticator
 import com.appsv.notesapp.core.util.NetworkManager
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -28,8 +31,16 @@ class AuthViewModel(
     private val loggedInUserRepository: LoggedInUserRepository by inject()
     private val networkManager : NetworkManager by inject()
 
-    private val _authResult = MutableLiveData<Boolean>()
-    val authResult: LiveData<Boolean> get() = _authResult
+
+    // we need each event that's why shared flow, using StateFlow will not produce the initial value (false here) again.
+    private val _authResult = MutableSharedFlow<Boolean>()
+    val authResult: SharedFlow<Boolean> get() = _authResult
+
+    private fun updateLiveData(isLoggedIn: Boolean) {
+        viewModelScope.launch {
+            _authResult.emit(isLoggedIn)
+        }
+    }
 
     private val _internetState = MutableStateFlow(false)
     val internetState = _internetState.asStateFlow()
@@ -51,15 +62,17 @@ class AuthViewModel(
 
     fun signInWithGoogle() {
         viewModelScope.launch {
-            val credential = googleAuthenticator.authenticate()
-
-            if (credential != null) {
-                saveUserInRoomDB(credential)
-                saveUserIDInSharedPref(credential.id)
-                updateLiveData(true)
-            } else {
-                updateLiveData(false)
+            googleAuthenticator.authenticate().collect{credential->
+                if (credential != null) {
+                    saveUserInRoomDB(credential)
+                    saveUserIDInSharedPref(credential.id)
+                    updateLiveData(true)
+                } else {
+                    Log.d("VFJFJFJF", "view m Error")
+                    updateLiveData(false)
+                }
             }
+
         }
     }
 
@@ -84,7 +97,11 @@ class AuthViewModel(
         }
     }
 
-    private fun updateLiveData(isLoggedIn: Boolean) {
-        _authResult.value = isLoggedIn
+    fun clearCredentialManagerState() {
+        viewModelScope.launch {
+            googleAuthenticator.clearCredentialState()
+        }
     }
+
+
 }
