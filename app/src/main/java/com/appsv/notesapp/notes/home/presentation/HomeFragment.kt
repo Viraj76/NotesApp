@@ -22,6 +22,7 @@ import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
 import com.appsv.notesapp.databinding.FragmentHomeBinding
 import com.appsv.notesapp.notes.home.presentation.adapter.NotesAdapter
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {

@@ -109,29 +109,38 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/_5sdp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:layout_constraintTop_toBottomOf="@+id/llProfile"
         >
 
-        <ProgressBar
+<!--        <ProgressBar-->
+<!--            android:id="@+id/progressIndicator"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:indeterminate="true"-->
+<!--            android:visibility="gone"-->
+<!--            android:layout_marginBottom="@dimen/_40sdp"-->
+<!--            android:indeterminateTint="@color/dark_shade_blue"-->
+<!--            android:layout_gravity="center"-->
+<!--            />-->
+
+        <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/progressIndicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="visible"
-            android:layout_marginBottom="@dimen/_40sdp"
-            android:indeterminateTint="@color/dark_shade_blue"
-            android:layout_gravity="center"
-            />
+            android:padding="@dimen/_5sdp"
+            android:visibility="visible">
+            <include layout="@layout/shimmer_notes_item" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvShowAllNotes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
-
             android:layout_marginBottom="@dimen/_40sdp"
             tools:listitem="@layout/notes_item" />
 
