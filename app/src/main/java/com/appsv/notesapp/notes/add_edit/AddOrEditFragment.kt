@@ -171,11 +171,11 @@ private val isEditModeLiveData = MutableLiveData<Boolean>(false)
                 }
                 else{
                     notesViewModel.saveOrUpdateNote(data)
+                    Toasts.showSimpleToast("Notes Added Successfully", requireContext())
                 }
             }
 
 
-            Toasts.showSimpleToast("Notes Added Successfully", requireContext())
             findNavController().navigate(R.id.action_addOrEditFragment_to_homeFragment)
         } else {
             Toasts.showSimpleToast("Please enter title at least!", requireContext())

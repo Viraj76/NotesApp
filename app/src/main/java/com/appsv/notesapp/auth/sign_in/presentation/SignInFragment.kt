@@ -60,7 +60,7 @@ class SignInFragment : Fragment() {
                         bundle.putString("userId", currentUserEmailId)
                         hideDialog()
                         showSignInDoneDialog()
-                        delay(1450)
+                        delay(1400)
                         hidePostDoneDialog()
                         findNavController().navigate(R.id.action_signInFragment_to_homeFragment, bundle)
                     }

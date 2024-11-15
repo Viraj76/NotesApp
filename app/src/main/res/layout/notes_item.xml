@@ -11,6 +11,7 @@
         android:layout_marginVertical="@dimen/_2sdp"
         android:clickable="true"
         android:focusable="true"
+        android:layout_marginHorizontal="@dimen/_2sdp"
         app:cardBackgroundColor="@color/dark_shade_blue"
         app:cardCornerRadius="10dp">
 
