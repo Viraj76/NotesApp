@@ -53,7 +53,6 @@ class SignInFragment : Fragment() {
         onSignInButtonClicked()
         viewLifecycleOwner.lifecycleScope.launch {
             authViewModel.authResult.collectLatest { userLoggedIn ->
-                Log.d("VFJFJFJF", "$userLoggedIn")
                 if (userLoggedIn) {
                     val currentUserEmailId = authViewModel.getUserId()
                     if (currentUserEmailId != null) {
@@ -66,7 +65,6 @@ class SignInFragment : Fragment() {
                         findNavController().navigate(R.id.action_signInFragment_to_homeFragment, bundle)
                     }
                 } else {
-                    Log.d("VFJFJFJF", "Error")
                     Toasts.showSimpleToast("SignIn denied!", requireContext())
                     hideDialog()
                 }

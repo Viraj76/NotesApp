@@ -68,7 +68,6 @@ class AuthViewModel(
                     saveUserIDInSharedPref(credential.id)
                     updateLiveData(true)
                 } else {
-                    Log.d("VFJFJFJF", "view m Error")
                     updateLiveData(false)
                 }
             }

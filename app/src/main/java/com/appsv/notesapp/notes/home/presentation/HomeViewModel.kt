@@ -1,7 +1,6 @@
 package com.appsv.notesapp.notes.home.presentation
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsv.notesapp.auth.splash.domain.repository.LoginStatusRepository
@@ -34,13 +33,13 @@ class HomeViewModel(
     val currentUser = _currentUser.asStateFlow()
 
     init {
-        Log.d("HOmeViewModel", "Comming")
+        // get currentUser email Id
         getUserId()
 
+        // get saved notes of the loggedIn User
         viewModelScope.launch {
             currentUser.collect { userID ->
                 userID?.let {
-                    Log.d("HOmeViewModel", userID)
                     getNotesByEmailId(it)
                 }
             }
@@ -57,9 +56,7 @@ class HomeViewModel(
     }
     fun getNotesByEmailId(emailId: String) {
         viewModelScope.launch {
-            Log.d("NotesTAG", emailId)
             notesRepository.getNotesByEmailId(emailId).collect { notesList ->
-                Log.d("NotesTAG", "Inside ${notesList}")
 
                 _notes.value = notes.value.copy(isLoading = false,notesList = notesList)
             }

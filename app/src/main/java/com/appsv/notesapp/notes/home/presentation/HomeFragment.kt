@@ -41,19 +41,13 @@ class HomeFragment : Fragment() {
     }
 
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("HomeFragmentLifecycle", "onCreate called")
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("HomeFragmentLifecycle", "onCreateView called")
         binding = FragmentHomeBinding.inflate(layoutInflater)
-
+        getLoggedInUserInfo()
+        getNotesAndShow()
         makeStaggeredViewRecyclerView()
         onLogOutIconClick()
 
@@ -68,48 +62,10 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.d("SavedStateNNNNNN", "saved")
 
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.d("HomeFragmentLifecycle", "onViewCreated called")
-        getLoggedInUserInfo()
-        getNotesAndShow()
-    }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d("HomeFragmentLifecycle", "onStart called")
-    }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("HomeFragmentLifecycle", "onResume called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("HomeFragmentLifecycle", "onPause called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("HomeFragmentLifecycle", "onStop called")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("HomeFragmentLifecycle", "onDestroyView called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("HomeFragmentLifecycle", "onDestroy called")
-    }
 
     private fun makeStaggeredViewRecyclerView() {
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
@@ -128,19 +84,16 @@ class HomeFragment : Fragment() {
             homeViewModel.notes.collect { state ->
                 when {
                     state.isLoading -> {
-                        Log.d("NotesTAG", "loading..")
                         binding.shimmer.visibility = View.VISIBLE
                         binding.tvNoNotesText.visibility = View.GONE
                         binding.rvShowAllNotes.visibility = View.GONE
                     }
                     state.notesList.isEmpty() -> {
-                        Log.d("NotesTAG", "empty")
                         binding.shimmer.visibility = View.GONE
                         binding.tvNoNotesText.visibility = View.VISIBLE
                         binding.rvShowAllNotes.visibility = View.GONE
                     }
                     else -> {
-                        Log.d("NotesTAG", "list")
                         binding.shimmer.visibility = View.GONE
                         binding.tvNoNotesText.visibility = View.GONE
                         binding.rvShowAllNotes.visibility = View.VISIBLE
