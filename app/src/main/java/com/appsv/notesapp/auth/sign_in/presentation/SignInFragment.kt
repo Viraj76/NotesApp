@@ -29,7 +29,12 @@ class SignInFragment : Fragment() {
     ): View {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.finish()
 
+            }
+        })
 
         binding.signInButton.setOnClickListener {
             authViewModel.signInWithGoogle()
@@ -47,7 +52,6 @@ class SignInFragment : Fragment() {
             }
 
         }
-
         return binding.root
     }
 }

@@ -43,14 +43,11 @@ class HomeFragment : Fragment() {
         val currentUserId = homeViewModel.getUserId()
         onLogOutIconClick()
 
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-////                if(!currentUserId.isNullOrEmpty()){
-////                    findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
-////                }
-//
-//            }
-//        })
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.finish()
+            }
+        })
 
         getLoggedInUserInfo(currentUserId)
 
