@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.appsv.notesapp.R
@@ -17,8 +19,8 @@ import com.appsv.notesapp.databinding.FragmentSplashBinding
 class SplashFragment : Fragment() {
     private lateinit var binding: FragmentSplashBinding
     private var splashHandler: Handler? = null
-    private val authViewModel: AuthViewModel by lazy {
-        ViewModelProvider(this, ViewModelFactoryForActivityContext(requireActivity()))[AuthViewModel::class.java]
+    private val authViewModel: AuthViewModel by viewModels{
+        ViewModelFactoryForActivityContext(requireActivity())
     }
 
     override fun onCreateView(
@@ -33,6 +35,7 @@ class SplashFragment : Fragment() {
     private fun checkLoginStatus() {
         splashHandler = Handler(Looper.getMainLooper())
         splashHandler?.postDelayed({
+
 
             val currentUserEmailId = authViewModel.getUserId()
             if (currentUserEmailId != null) {

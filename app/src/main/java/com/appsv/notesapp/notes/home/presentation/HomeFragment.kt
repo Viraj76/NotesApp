@@ -1,6 +1,7 @@
 package com.appsv.notesapp.notes.home.presentation
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -19,29 +22,39 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
+import com.appsv.notesapp.base.MainActivity
 import com.appsv.notesapp.databinding.FragmentHomeBinding
 import com.appsv.notesapp.notes.home.presentation.adapter.NotesAdapter
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.delay
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import org.koin.core.component.getScopeId
 
 class HomeFragment : Fragment() {
-    private lateinit var binding : FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var notesAdapter: NotesAdapter
-    private val homeViewModel: HomeViewModel by lazy {
-        ViewModelProvider(this, ViewModelFactoryForActivityContext(requireActivity()))[HomeViewModel::class.java]
+
+
+    private val homeViewModel: HomeViewModel by viewModels{
+        ViewModelFactoryForActivityContext(requireActivity())
     }
 
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("HomeFragmentLifecycle", "onCreate called")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("HomeFragmentLifecycle", "onCreateView called")
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
         makeStaggeredViewRecyclerView()
-
-        val currentUserId = homeViewModel.getUserId()
         onLogOutIconClick()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -50,99 +63,124 @@ class HomeFragment : Fragment() {
             }
         })
 
-        getLoggedInUserInfo(currentUserId)
-
-        getNotesAndShow(currentUserId)
-
         onNoteAddButtonClick()
 
         return binding.root
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("SavedStateNNNNNN", "saved")
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("HomeFragmentLifecycle", "onViewCreated called")
+        getLoggedInUserInfo()
+        getNotesAndShow()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("HomeFragmentLifecycle", "onStart called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("HomeFragmentLifecycle", "onResume called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("HomeFragmentLifecycle", "onPause called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("HomeFragmentLifecycle", "onStop called")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("HomeFragmentLifecycle", "onDestroyView called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("HomeFragmentLifecycle", "onDestroy called")
+    }
+
     private fun makeStaggeredViewRecyclerView() {
-        val staggeredGridLayoutManager = (StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL))
-        binding.rvShowAllNotes.layoutManager=staggeredGridLayoutManager
+        val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        binding.rvShowAllNotes.layoutManager = staggeredGridLayoutManager
     }
 
     private fun onNoteAddButtonClick() {
-        binding.fabAddNote.setOnClickListener{
-
+        binding.fabAddNote.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_addOrEditFragment)
         }
     }
 
-    private fun getNotesAndShow(currentUserId: String?) {
+    private fun getNotesAndShow() {
 
         viewLifecycleOwner.lifecycleScope.launch {
-            homeViewModel.getNotesByEmailId(currentUserId!!)
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycleScope.launch{
-                homeViewModel.notes.collect { state ->
-                    when {
-                        state.isLoading -> {
-                            Log.d("NotesTAG", "loading..")
-                            binding.progressIndicator.visibility = View.VISIBLE
-                            binding.tvNoNotesText.visibility = View.GONE
-                            binding.rvShowAllNotes.visibility = View.GONE
-                        }
-                        state.notesList.isEmpty() -> {
-                            Log.d("NotesTAG", "empty")
-                            binding.progressIndicator.visibility = View.GONE
-                            binding.tvNoNotesText.visibility = View.VISIBLE
-                            binding.rvShowAllNotes.visibility = View.GONE
-                        }
-                        else -> {
-                            Log.d("NotesTAG", "list")
-                            binding.progressIndicator.visibility = View.GONE
-                            binding.tvNoNotesText.visibility = View.GONE
-                            binding.rvShowAllNotes.visibility = View.VISIBLE
-                            notesAdapter = NotesAdapter()
-                            binding.rvShowAllNotes.adapter = notesAdapter
-                            notesAdapter.differ.submitList(state.notesList)
-                            // Set up or update RecyclerView adapter with the notesList
-                            // notesAdapter.submitList(state.notesList)
-                        }
+            homeViewModel.notes.collect { state ->
+                when {
+                    state.isLoading -> {
+                        Log.d("NotesTAG", "loading..")
+                        binding.shimmer.visibility = View.VISIBLE
+                        binding.tvNoNotesText.visibility = View.GONE
+                        binding.rvShowAllNotes.visibility = View.GONE
+                    }
+                    state.notesList.isEmpty() -> {
+                        Log.d("NotesTAG", "empty")
+                        binding.shimmer.visibility = View.GONE
+                        binding.tvNoNotesText.visibility = View.VISIBLE
+                        binding.rvShowAllNotes.visibility = View.GONE
+                    }
+                    else -> {
+                        Log.d("NotesTAG", "list")
+                        binding.shimmer.visibility = View.GONE
+                        binding.tvNoNotesText.visibility = View.GONE
+                        binding.rvShowAllNotes.visibility = View.VISIBLE
+                        notesAdapter = NotesAdapter()
+                        binding.rvShowAllNotes.adapter = notesAdapter
+                        notesAdapter.differ.submitList(state.notesList)
                     }
                 }
             }
         }
-
-
-
-
     }
 
-    private fun getLoggedInUserInfo(currentUserId: String?) {
+    private fun getLoggedInUserInfo() {
         viewLifecycleOwner.lifecycleScope.launch {
-            currentUserId?.let { userId ->
-                homeViewModel.getUserById(userId).collect { loggedInUserDetail ->
-                    loggedInUserDetail?.let {
+            homeViewModel.currentUser.collect { userId ->
+                userId?.let {
+                    homeViewModel.getUserById(userId).collect { loggedInUserDetail ->
+                        loggedInUserDetail?.let {
+                            val userName = it.displayName
+                            binding.tvUserName.text = userName
+                            val checkProfileImage = it.profilePictureUri == null
 
-                        val userName = it.displayName
-                        binding.tvUserName.text = userName
-                        val checkProfileImage = it.profilePictureUri == null
-
-                        if (!checkProfileImage) {
-                            binding.ivUserImage.visibility = View.VISIBLE
-                            lifecycleScope.launch {
+                            if (!checkProfileImage) {
                                 Glide.with(requireActivity())
                                     .load(it.profilePictureUri!!.toUri())
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                                     .placeholder(R.drawable.google_image)
                                     .into(binding.ivUserImage)
+                                binding.tvUserImage.visibility = View.GONE
+                            } else {
+                                binding.ivUserImage.visibility = View.GONE
+                                binding.tvUserImage.visibility = View.VISIBLE
+                                binding.tvUserImage.text = userName?.get(0)?.toString() ?: ""
                             }
-                            binding.tvUserImage.visibility = View.GONE
-                        } else {
-                            binding.ivUserImage.visibility = View.GONE
-                            binding.tvUserImage.visibility = View.VISIBLE
-                            binding.tvUserImage.text = userName?.get(0)?.toString() ?: ""
                         }
                     }
-                }
-            } ?: Log.e("UserInfoError", "User ID is null")
+                } ?: Log.e("UserInfoError", "User ID is null")
+            }
         }
     }
-
 
     private fun onLogOutIconClick() {
         binding.logoutIcon.setOnClickListener {
@@ -156,14 +194,16 @@ class HomeFragment : Fragment() {
         builder
             .setTitle("Log Out")
             .setMessage("Are you sure you want to log out?")
-            .setPositiveButton("Yes"){ _, _ ->
+            .setPositiveButton("Yes") { _, _ ->
                 homeViewModel.onLoggingOutUser()
+
                 findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
             }
-            .setNegativeButton("No"){ _, _ ->
+            .setNegativeButton("No") { _, _ ->
                 alertDialog.dismiss()
             }
-            .show()
             .setCancelable(false)
+            .show()
     }
 }
+

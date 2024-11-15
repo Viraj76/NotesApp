@@ -30,8 +30,30 @@ class HomeViewModel(
     private val _notes = MutableStateFlow(NotesState())
     val notes  = _notes.asStateFlow()
 
-    fun getUserId(): String? {
-        return loginStatusRepository.getUser()
+    private val _currentUser = MutableStateFlow<String?>(null) // Allow null values
+    val currentUser = _currentUser.asStateFlow()
+
+    init {
+        Log.d("HOmeViewModel", "Comming")
+        getUserId()
+
+        viewModelScope.launch {
+            currentUser.collect { userID ->
+                userID?.let {
+                    Log.d("HOmeViewModel", userID)
+                    getNotesByEmailId(it)
+                }
+            }
+        }
+
+
+    }
+
+
+
+
+    private fun getUserId() {
+        _currentUser.value = loginStatusRepository.getUser()
     }
     fun getNotesByEmailId(emailId: String) {
         viewModelScope.launch {

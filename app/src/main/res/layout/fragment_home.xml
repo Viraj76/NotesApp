@@ -116,19 +116,9 @@
         app:layout_constraintTop_toBottomOf="@+id/llProfile"
         >
 
-<!--        <ProgressBar-->
-<!--            android:id="@+id/progressIndicator"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:indeterminate="true"-->
-<!--            android:visibility="gone"-->
-<!--            android:layout_marginBottom="@dimen/_40sdp"-->
-<!--            android:indeterminateTint="@color/dark_shade_blue"-->
-<!--            android:layout_gravity="center"-->
-<!--            />-->
 
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/progressIndicator"
+            android:id="@+id/shimmer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/_5sdp"
