@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.AuthViewModel
 import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
 import com.appsv.notesapp.databinding.FragmentSignInBinding
+import kotlinx.coroutines.launch
 
 
 class SignInFragment : Fragment() {
@@ -29,6 +31,7 @@ class SignInFragment : Fragment() {
     ): View {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
 
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 activity?.finish()
@@ -36,6 +39,7 @@ class SignInFragment : Fragment() {
             }
         })
 
+        observeInternetConnection()
         binding.signInButton.setOnClickListener {
             authViewModel.signInWithGoogle()
         }
@@ -53,5 +57,26 @@ class SignInFragment : Fragment() {
 
         }
         return binding.root
+    }
+
+    /**
+     * Google Sign requires internet connection.
+     */
+    private fun observeInternetConnection() {
+        authViewModel.internetConnectionState()
+        lifecycleScope.launch {
+            authViewModel.internetState.collect{internetConnected->
+
+                if(internetConnected){
+                    binding.clNoInternet.visibility = View.GONE
+                    binding.clSignIn.visibility = View.VISIBLE
+                }
+                else{
+                    binding.clNoInternet.visibility = View.VISIBLE
+                    binding.clSignIn.visibility = View.GONE
+                }
+            }
+        }
+
     }
 }

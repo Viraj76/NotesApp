@@ -6,6 +6,7 @@ import com.appsv.notesapp.core.data.local.room.LoggedInUserDao
 import com.appsv.notesapp.core.data.local.room.NotesAppRoomDB
 import com.appsv.notesapp.core.data.repository.LoggedInUserRepositoryImpl
 import com.appsv.notesapp.core.domain.repositories.LoggedInUserRepository
+import com.appsv.notesapp.core.util.NetworkManager
 
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -24,10 +25,15 @@ fun provideLoggedInUserRepository(loggedInUserDao: LoggedInUserDao): LoggedInUse
     return LoggedInUserRepositoryImpl(loggedInUserDao)
 }
 
+fun provideNetManagerInstance(context: Context) : NetworkManager{
+    return NetworkManager(context)
+}
+
 
 
 val coreModule = module {
     single { provideRoomDatabase(androidContext()) }
     single { provideDao(get()) }
     single { provideLoggedInUserRepository(get()) }
+    single { provideNetManagerInstance(get()) }
 }

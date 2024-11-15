@@ -29,6 +29,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="visible"
             >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Internet Connection!"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                />
             <ImageView
                 android:id="@+id/ivNoWifi"
                 android:layout_width="wrap_content"
@@ -43,7 +53,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="No Internet! Please check your connection for Google Sign-In."
+                android:text="Please check your connection for Google Sign-In."
                 android:textSize="@dimen/_15ssp"
                 android:textStyle="bold"
                 android:gravity="center"

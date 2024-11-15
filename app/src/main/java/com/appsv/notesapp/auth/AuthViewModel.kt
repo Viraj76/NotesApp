@@ -9,7 +9,11 @@ import com.appsv.notesapp.core.domain.models.LoggedInUserDetail
 import com.appsv.notesapp.auth.splash.domain.repository.LoginStatusRepository
 import com.appsv.notesapp.core.domain.repositories.LoggedInUserRepository
 import com.appsv.notesapp.core.presentation.sign_in.GoogleAuthenticator
+import com.appsv.notesapp.core.util.NetworkManager
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -22,9 +26,28 @@ class AuthViewModel(
     private val googleAuthenticator: GoogleAuthenticator by inject { parametersOf(ctx) }
     private val loginStatusRepository: LoginStatusRepository by inject()
     private val loggedInUserRepository: LoggedInUserRepository by inject()
+    private val networkManager : NetworkManager by inject()
 
     private val _authResult = MutableLiveData<Boolean>()
     val authResult: LiveData<Boolean> get() = _authResult
+
+    private val _internetState = MutableStateFlow(false)
+    val internetState = _internetState.asStateFlow()
+
+
+
+    fun internetConnectionState(){
+        viewModelScope.launch {
+            networkManager.observeNetworkStatus().collect{internetState->
+
+                _internetState.value = internetState
+
+            }
+        }
+
+    }
+
+
 
     fun signInWithGoogle() {
         viewModelScope.launch {
