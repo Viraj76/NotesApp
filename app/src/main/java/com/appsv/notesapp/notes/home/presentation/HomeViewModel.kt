@@ -23,6 +23,12 @@ class HomeViewModel(
 ) : ViewModel(), KoinComponent {
 
 
+    init {
+        getAllLoggedInUsers()
+    }
+
+
+
     private val googleSignIn: GoogleAuthenticator by inject { parametersOf(context) }
     private val loggedInUserRepository: LoggedInUserRepository by inject()
     private val loginStatusRepository: LoginStatusRepository by inject()
@@ -33,6 +39,34 @@ class HomeViewModel(
 
     private val _currentUser = MutableStateFlow<String?>(null) // Allow null values
     val currentUser = _currentUser.asStateFlow()
+
+
+    private val _allLoggedInUsers = MutableStateFlow<List<LoggedInUserDetail?>>(emptyList())
+    val allLoggedInUsers = _allLoggedInUsers.asStateFlow()
+
+
+    private fun getAllLoggedInUsers() {
+
+        viewModelScope.launch {
+            loggedInUserRepository.getAllUsers().collect{
+                _allLoggedInUsers.value = it
+            }
+        }
+    }
+
+
+
+    private val _showUsersPopUpWindow = MutableStateFlow(false)
+    val showUsersPopUpWindow = _showUsersPopUpWindow.asStateFlow()
+
+
+    fun showUsersPopUpWindow(){
+        _showUsersPopUpWindow.value = true
+    }
+
+    fun hideUsersPopUpWindow(){
+        _showUsersPopUpWindow.value = false
+    }
 
     private var _logOutDialogState = MutableStateFlow(false)
     val logOutDialogState = _logOutDialogState.asStateFlow()

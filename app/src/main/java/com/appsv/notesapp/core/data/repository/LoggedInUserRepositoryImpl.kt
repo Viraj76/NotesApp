@@ -14,12 +14,19 @@ class LoggedInUserRepositoryImpl(
     private val loggedInUserDao: LoggedInUserDao
 ) : LoggedInUserRepository {
 
+
+
+
     override suspend fun saveUser(authResult: LoggedInUserDetail) {
         loggedInUserDao.insertOrUpdateUser(authResult)
     }
 
     override suspend fun getUserById(userId: String): Flow<LoggedInUserDetail?> {
         return loggedInUserDao.getUserById(userId)
+    }
+
+    override suspend fun getAllUsers(): Flow<List<LoggedInUserDetail?>> {
+        return loggedInUserDao.getAllUsers()
     }
 
     override suspend fun deleteUserById(userId: String) {

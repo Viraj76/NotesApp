@@ -19,6 +19,9 @@ interface LoggedInUserDao {
     @Query("SELECT * FROM LoggedInUserDetail WHERE id = :userId LIMIT 1")
      fun getUserById(userId: String): Flow<LoggedInUserDetail?>
 
+    @Query("SELECT * FROM LoggedInUserDetail")
+    fun getAllUsers(): Flow<List<LoggedInUserDetail?>>
+
     @Query("DELETE FROM LoggedInUserDetail WHERE id = :userId")
     suspend fun deleteUserById(userId: String)
 

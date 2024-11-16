@@ -49,8 +49,10 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/google_image"
                 android:visibility="visible"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/custom_ripple"
                 app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 />
             <LinearLayout

@@ -49,12 +49,16 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
         getLoggedInUserInfo()
         getNotesAndShow()
         makeStaggeredViewRecyclerView()
         setupFabScrollBehavior()
         onLogOutIconClick()
         observeLogOutDialogState()
+
+        onUserImageClick()
+        collectUserPopUpWindowState()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -67,12 +71,39 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+
+    private fun onUserImageClick() {
+        binding.ivUserImage.setOnClickListener{
+            homeViewModel.showUsersPopUpWindow()
+        }
+    }
+
+    private fun collectUserPopUpWindowState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            homeViewModel.showUsersPopUpWindow.collect{show->
+                if(show){
+                    showUsersPopUpWindow()
+                }
+                else{
+
+                }
+            }
+        }
+    }
+
+    private suspend  fun showUsersPopUpWindow() {
+        homeViewModel.allLoggedInUsers.collect{allUsers->
+
+        }
+    }
+
     private fun observeLogOutDialogState() {
         viewLifecycleOwner.lifecycleScope.launch {
             homeViewModel.logOutDialogState.collect{state->
                 if(state){
                     showConfirmationDialog(
                         icon = R.drawable.baseline_logout_24,
+                        iconTint = R.color.red,
                         title = "Log Out",
                         message = "Are you sure you want to log out?",
                         positiveText = "Yes",

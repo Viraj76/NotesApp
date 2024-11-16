@@ -1,4 +1,3 @@
-
 package com.appsv.notesapp.auth.sign_in.presentation
 
 import android.os.Bundle
@@ -8,21 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.appsv.notesapp.R
 import com.appsv.notesapp.auth.AuthViewModel
 import com.appsv.notesapp.auth.ViewModelFactoryForActivityContext
 import com.appsv.notesapp.core.util.Toasts
-import com.appsv.notesapp.core.util.hideDialog
-import com.appsv.notesapp.core.util.hidePostDoneDialog
-import com.appsv.notesapp.core.util.showDialog
+import com.appsv.notesapp.core.util.hideSignInWaitDialog
+import com.appsv.notesapp.core.util.hideSignInDoneDialog
+import com.appsv.notesapp.core.util.showSignInWaitDialog
 import com.appsv.notesapp.core.util.showSignInDoneDialog
 import com.appsv.notesapp.databinding.FragmentSignInBinding
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -30,7 +28,7 @@ import kotlinx.coroutines.launch
 class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSignInBinding
 
-    private val authViewModel: AuthViewModel by viewModels{
+    private val authViewModel: AuthViewModel by viewModels {
         ViewModelFactoryForActivityContext(requireActivity())
     }
 
@@ -41,32 +39,36 @@ class SignInFragment : Fragment() {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
 
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                activity?.finish()
-            }
-        })
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    activity?.finish()
+                }
+            })
 
         observeInternetConnection()
+
+        navigateToHome()
+
+        collectSignInWaitDialogState()
+        collectSignInDoneDialogState()
 
 
         onSignInButtonClicked()
         viewLifecycleOwner.lifecycleScope.launch {
             authViewModel.authResult.collectLatest { userLoggedIn ->
                 if (userLoggedIn) {
-                    val currentUserEmailId = authViewModel.getUserId()
-                    if (currentUserEmailId != null) {
-                        val bundle = Bundle()
-                        bundle.putString("userId", currentUserEmailId)
-                        hideDialog()
-                        showSignInDoneDialog()
+                    authViewModel.hideSignInWaitDialog()
+                        authViewModel.showSignInDoneDialog()
                         delay(1400)
-                        hidePostDoneDialog()
-                        findNavController().navigate(R.id.action_signInFragment_to_homeFragment, bundle)
-                    }
+                        authViewModel.hideSignInDoneDialog()
+                       authViewModel.navigateToHome()
+
+
                 } else {
                     Toasts.showSimpleToast("SignIn denied!", requireContext())
-                    hideDialog()
+                    authViewModel.hideSignInWaitDialog()
                 }
             }
         }
@@ -75,9 +77,45 @@ class SignInFragment : Fragment() {
         return binding.root
     }
 
+    private fun navigateToHome() {
+        lifecycleScope.launch {
+            authViewModel.navigateToHome.collect{go->
+                if(go){
+                    findNavController().navigate(R.id.action_signInFragment_to_homeFragment)
+                }
+            }
+        }
+    }
+
+    private fun collectSignInDoneDialogState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            authViewModel.signInDoneDialog.collect { state ->
+                if (state) {
+                    showSignInDoneDialog()
+                } else {
+                    hideSignInDoneDialog()
+                }
+            }
+
+        }
+    }
+
+    private fun collectSignInWaitDialogState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            authViewModel.signInWaitDialog.collect { state ->
+
+                if (state) {
+                    showSignInWaitDialog("Signing you.. please wait")
+                } else {
+                    hideSignInWaitDialog()
+                }
+            }
+        }
+    }
+
     private fun onSignInButtonClicked() {
         binding.signInButton.setOnClickListener {
-            showDialog("Signing you.. please wait")
+            authViewModel.showSignInWaitDialog()
             authViewModel.signInWithGoogle()
         }
     }
@@ -88,13 +126,12 @@ class SignInFragment : Fragment() {
     private fun observeInternetConnection() {
         authViewModel.internetConnectionState()
         lifecycleScope.launch {
-            authViewModel.internetState.collect{internetConnected->
+            authViewModel.internetState.collect { internetConnected ->
 
-                if(internetConnected){
+                if (internetConnected) {
                     binding.clNoInternet.visibility = View.GONE
                     binding.clSignIn.visibility = View.VISIBLE
-                }
-                else{
+                } else {
                     binding.clNoInternet.visibility = View.VISIBLE
                     binding.clSignIn.visibility = View.GONE
                 }
@@ -103,3 +140,5 @@ class SignInFragment : Fragment() {
 
     }
 }
+
+

@@ -32,9 +32,45 @@ class AuthViewModel(
     private val networkManager : NetworkManager by inject()
 
 
+    private val _navigateToHome = MutableStateFlow(false)
+    val navigateToHome = _navigateToHome.asStateFlow()
+
+    fun navigateToHome(){
+        _navigateToHome.value = true
+    }
+
     // we need each event that's why shared flow, using StateFlow will not produce the initial value (false here) again.
     private val _authResult = MutableSharedFlow<Boolean>()
     val authResult: SharedFlow<Boolean> get() = _authResult
+
+
+    private var _signInWaitDialog = MutableStateFlow(false)
+    val signInWaitDialog = _signInWaitDialog.asStateFlow()
+
+
+
+    fun showSignInWaitDialog(){
+        _signInWaitDialog.value = true
+    }
+
+    fun hideSignInWaitDialog() {
+        _signInWaitDialog.value = false
+    }
+
+
+    private var _signInDoneDialog = MutableStateFlow(false)
+    val signInDoneDialog = _signInDoneDialog.asStateFlow()
+
+    fun showSignInDoneDialog(){
+        _signInDoneDialog.value = true
+    }
+
+    fun hideSignInDoneDialog() {
+        _signInDoneDialog.value = false
+    }
+
+
+
 
     private fun updateLiveData(isLoggedIn: Boolean) {
         viewModelScope.launch {

@@ -1,5 +1,6 @@
 package com.appsv.notesapp.core.util
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
@@ -10,7 +11,7 @@ import com.appsv.notesapp.databinding.SignInDoneBinding
 var dialog : AlertDialog? = null
 
 
-fun Fragment.showDialog(message: String){
+fun Fragment.showSignInWaitDialog(message: String){
     val progress = ProgressDialogBinding.inflate(LayoutInflater.from(requireContext()))
     progress.tvMessage.text = message
     dialog   = AlertDialog.Builder(requireContext()).setView(progress.root).setCancelable(false).create()
@@ -19,7 +20,7 @@ fun Fragment.showDialog(message: String){
 }
 
 
-fun hideDialog(){
+fun hideSignInWaitDialog(){
     dialog?.dismiss()
 }
 
@@ -33,7 +34,7 @@ fun Fragment.showSignInDoneDialog(){
 }
 
 
-fun hidePostDoneDialog(){
+fun hideSignInDoneDialog(){
     doneDialog?.dismiss()
 }
 
@@ -41,8 +42,10 @@ fun hidePostDoneDialog(){
 
 private var confirmationDialog: AlertDialog? = null
 
+@SuppressLint("UseCompatLoadingForDrawables")
 fun Fragment.showConfirmationDialog(
     icon: Int,
+    iconTint: Int? = null, // Optional tint color resource
     title: String,
     message: String,
     positiveText: String,
@@ -50,23 +53,29 @@ fun Fragment.showConfirmationDialog(
     negativeText: String,
     negativeAction: (() -> Unit)? = null
 ) {
+    val drawable = requireContext().getDrawable(icon)
+    iconTint?.let {
+        drawable?.setTint(requireContext().getColor(it)) // Apply tint to the drawable
+    }
+
     confirmationDialog = AlertDialog.Builder(requireContext()).apply {
-        setIcon(icon)
+        setIcon(drawable) // Set the tinted drawable as the icon
         setTitle(title)
         setMessage(message)
         setPositiveButton(positiveText) { _, _ ->
             positiveAction()
-            hideDialog()
+            hideSignInWaitDialog()
         }
         setNegativeButton(negativeText) { _, _ ->
             negativeAction?.invoke()
-            hideDialog()
+            hideSignInWaitDialog()
         }
         setCancelable(false)
     }.create()
 
     confirmationDialog?.show()
 }
+
 
 fun hideConfirmationDialog() {
     confirmationDialog?.dismiss()
