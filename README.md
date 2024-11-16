@@ -38,17 +38,17 @@
 4. Follow the on-screen instructions to complete the installation.
 
 ### Note
-You can trust this app and install it without scanning.
 
 <table>
+   <tr>
+    <th>You can trust this app and install it without scanning</th>
+    <td colspan="1"></td>
+  </tr>
   <tr>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/03f283a8-6fe8-47db-96a8-59e7cf1781af" width="250">
-    </td>
-    <td></td>
-    <td></td>
+    <td><img src="https://github.com/user-attachments/assets/03f283a8-6fe8-47db-96a8-59e7cf1781af" width="320"></td>
   </tr>
 </table>
+
 
 ---
 
@@ -86,82 +86,61 @@ You can trust this app and install it without scanning.
 
 <table>
   <tr>
-    <td align="center">
-      <b>Splash Screen</b><br>
-      <img src="https://github.com/user-attachments/assets/a48ad14a-6186-44a3-be1e-4ffd6488fe60" width="250">
-    </td>
-    <td align="center">
-      <b>No Internet (Sign In Fragment)</b><br>
-      <img src="https://github.com/user-attachments/assets/1d8612c3-1d44-4779-a63f-4c4403aa386d" width="250">
-    </td>
-    <td align="center">
-      <b>Sign In Button when Internet is Available</b><br>
-      <img src="https://github.com/user-attachments/assets/ce637216-5c45-45d8-b00d-230426d49919" width="250">
-    </td>
+    <th>Splash Screen</th>
+    <th>No Internet (Sign In Fragment)</th>
+    <th>Sign In Button when Internet is Available</th>
   </tr>
   <tr>
-    <td align="center">
-      <b>Dialog While Signing In</b><br>
-      <img src="https://github.com/user-attachments/assets/7f4e4932-1084-49a8-8e69-246e5cdfbc97" width="250">
-    </td>
-    <td align="center">
-      <b>Credential Manager</b><br>
-      <img src="https://github.com/user-attachments/assets/8b4f5c17-a2be-44c6-b91f-bc8e0fb462f3" width="250">
-    </td>
-    <td align="center">
-      <b>Signing In with Selected Email</b><br>
-      <img src="https://github.com/user-attachments/assets/4a95ee5f-8baf-453e-a0f7-e4a5997423f5" width="250">
-    </td>
+    <td><img src="https://github.com/user-attachments/assets/a48ad14a-6186-44a3-be1e-4ffd6488fe60" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/1d8612c3-1d44-4779-a63f-4c4403aa386d" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/ce637216-5c45-45d8-b00d-230426d49919" width="320"></td>
   </tr>
   <tr>
-    <td align="center">
-      <b>Success Dialog After Signing In</b><br>
-      <img src="https://github.com/user-attachments/assets/c2bd32ae-88bf-4fc7-8967-cfc56d8700b7" width="250">
-    </td>
-    <td align="center">
-      <b>HomeFragment (User Notes)</b><br>
-      <img src="https://github.com/user-attachments/assets/f286e1f6-7f2d-4cd9-8db5-73dce8f739a6" width="250">
-    </td>
-    <td align="center">
-      <b>Viewing Logged-in Users</b><br>
-      <img src="https://github.com/user-attachments/assets/727f1106-0503-44d4-aadf-9a403d97e2ee" width="250">
-    </td>
+    <th>Dialog While Signing In</th>
+    <th>Credential Manager</th>
+    <th>Signing In with Selected Email</th>
   </tr>
   <tr>
-    <td align="center">
-      <b>Switching Users to View Notes</b><br>
-      <img src="https://github.com/user-attachments/assets/ff299796-f293-47fb-88cf-3fb40d7d3f8f" width="250">
-    </td>
-    <td align="center">
-      <b>Add Note (AddOrEdit Fragment)</b><br>
-      <img src="https://github.com/user-attachments/assets/55a9bfd2-1585-41ba-a4ce-cd6ef017ca30" width="250">
-    </td>
-    <td align="center">
-      <b>Viewing Added Notes</b><br>
-      <img src="https://github.com/user-attachments/assets/e5e9ee81-b0c0-4036-9ac7-3d1ae4de47ba" width="250">
-    </td>
+    <td><img src="https://github.com/user-attachments/assets/7f4e4932-1084-49a8-8e69-246e5cdfbc97" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/8b4f5c17-a2be-44c6-b91f-bc8e0fb462f3" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/4a95ee5f-8baf-453e-a0f7-e4a5997423f5" width="320"></td>
   </tr>
   <tr>
-    <td align="center">
-      <b>Edit Note (AddOrEdit Fragment)</b><br>
-      <img src="https://github.com/user-attachments/assets/dc30c170-0a27-42b4-a6b7-ac2a1273502a" width="250">
-    </td>
-    <td align="center">
-      <b>Delete Note Confirmation Dialog</b><br>
-      <img src="https://github.com/user-attachments/assets/ab8802e5-63e7-4b18-9211-be568d0fd4fe" width="250">
-    </td>
-    <td align="center">
-      <b>Logout Confirmation Dialog</b><br>
-      <img src="https://github.com/user-attachments/assets/6fa871fd-d8b7-4f9b-b78d-4b46c8405953" width="250">
-    </td>
+    <th>Success Dialog After Signing In</th>
+    <th>HomeFragment (User Notes)</th>
+    <th>Viewing Logged-in Users</th>
   </tr>
   <tr>
-    <td align="center" colspan="1">
-      <b>Staggered Recycler View of Notes</b><br>
-      <img src="https://github.com/user-attachments/assets/fbc8841a-722d-42f3-97d5-8077268f8928" width="250">
-    </td>
-    <td></td>
-    <td></td>
+    <td><img src="https://github.com/user-attachments/assets/c2bd32ae-88bf-4fc7-8967-cfc56d8700b7" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/f286e1f6-7f2d-4cd9-8db5-73dce8f739a6" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/727f1106-0503-44d4-aadf-9a403d97e2ee" width="320"></td>
+  </tr>
+  <tr>
+    <th>Switching Users to View Notes</th>
+    <th>Add Note (AddOrEdit Fragment)</th>
+    <th>Viewing Added Notes</th>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/ff299796-f293-47fb-88cf-3fb40d7d3f8f" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/55a9bfd2-1585-41ba-a4ce-cd6ef017ca30" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/e5e9ee81-b0c0-4036-9ac7-3d1ae4de47ba" width="320"></td>
+  </tr>
+  <tr>
+    <th>Edit Note (AddOrEdit Fragment)</th>
+    <th>Delete Note Confirmation Dialog</th>
+    <th>Logout Confirmation Dialog</th>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/dc30c170-0a27-42b4-a6b7-ac2a1273502a" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/ab8802e5-63e7-4b18-9211-be568d0fd4fe" width="320"></td>
+    <td><img src="https://github.com/user-attachments/assets/6fa871fd-d8b7-4f9b-b78d-4b46c8405953" width="320"></td>
+  </tr>
+  <tr>
+    <th>Staggered Recycler View of Notes</th>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/fbc8841a-722d-42f3-97d5-8077268f8928" width="320"></td>
   </tr>
 </table>
 
