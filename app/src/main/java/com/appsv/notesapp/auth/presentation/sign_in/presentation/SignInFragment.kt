@@ -63,7 +63,7 @@ class SignInFragment : Fragment() {
                     authViewModel.hideSignInDoneDialog()
                     authViewModel.navigateToHome()
                 } else {
-                    Toasts.showSimpleToast("SignIn denied!", requireContext())
+                    Toasts.showSimpleToast("SignIn denied! Please try again", requireContext())
                     authViewModel.hideSignInWaitDialog()
                 }
             }
@@ -106,7 +106,6 @@ class SignInFragment : Fragment() {
     private fun collectSignInWaitDialogState() {
         viewLifecycleOwner.lifecycleScope.launch {
             authViewModel.signInWaitDialog.collect { state ->
-
                 if (state) {
                     showSignInWaitDialog("Signing you.. please wait")
                 } else {
