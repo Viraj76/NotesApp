@@ -2,18 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
     <color name="cobalt_blue">#FF3450a1</color>
     <color name="dark_shade_blue">#FF041955</color>
     <color name="notes_item_click_effect">#5268A0</color>
-
-    <color name="bg">#53A6E8</color>
     <color name="red">#DD2020</color>
     <color name="light_blue">#53A6E8</color>
-    <color name="gray_click_effect">#D2D2F2</color>
-    <color name="etBackground">#034070</color>
-    <color name="green_oval">#04EB0D</color>
-    <color name="yellow_oval">#DCF116</color>
-    <color name="background">#B2D9F8</color>
-    <color name="logout_icon">#FFFFFFFF</color>
+    <color name="green">#04EB0D</color>
+    <color name="yellow">#B3C506</color>
 
 </resources>

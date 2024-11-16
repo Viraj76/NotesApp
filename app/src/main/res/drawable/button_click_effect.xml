@@ -12,7 +12,7 @@
             <corners android:radius="@dimen/_8sdp" />
             <stroke
                 android:width="@dimen/_1sdp"
-                android:color="@color/bg" />
+                android:color="@color/light_blue" />
         </shape>
     </item>
 </selector>

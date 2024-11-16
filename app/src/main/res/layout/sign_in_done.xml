@@ -31,7 +31,7 @@
             android:id="@+id/tvMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Signed In"
+            android:text="@string/signed_in"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             android:layout_marginBottom="@dimen/_15sdp"

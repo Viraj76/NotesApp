@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,126 +11,125 @@
         android:id="@+id/clNoInternet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:id="@+id/llNoInternet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="visible"
-            >
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="No Internet Connection!"
-                android:textSize="@dimen/_20ssp"
-                android:textStyle="bold"
-                android:gravity="center"
                 android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/no_internet_connection"
                 android:textColor="@color/white"
-                />
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/ivNoWifi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:visibility="visible"
                 android:scaleType="center"
                 android:src="@drawable/baseline_wifi_off_24"
+                android:visibility="visible"
                 app:tint="@color/red" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Please check your connection for Google Sign-In."
-                android:textSize="@dimen/_15ssp"
-                android:textStyle="bold"
-                android:gravity="center"
                 android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/please_check_your_connection_for_google_sign_in"
                 android:textColor="@color/white"
-                />
+                android:textSize="@dimen/_15ssp"
+                android:textStyle="bold" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-   <androidx.constraintlayout.widget.ConstraintLayout
-       android:id="@+id/clSignIn"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       android:visibility="visible"
-       app:layout_constraintTop_toTopOf="parent"
-       app:layout_constraintBottom_toBottomOf="parent"
-       >
-       <TextView
-           android:id="@+id/tvSignIn"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="@string/sign_in"
-           android:textSize="@dimen/_24ssp"
-           android:textStyle="bold"
-           android:textColor="@color/white"
-           app:layout_constraintTop_toTopOf="parent"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_24ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
+        <TextView
+            android:id="@+id/tvOrContinueWith"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/kindly_click_the_button_below_to_sign_in"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSignIn" />
 
-       <TextView
-           android:id="@+id/tvOrContinueWith"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="Kindly click the button below to sign in."
-           android:textSize="@dimen/_14ssp"
-           android:textStyle="bold"
-           android:textColor="@color/white"
-           app:layout_constraintTop_toBottomOf="@id/tvSignIn"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           android:layout_marginTop="@dimen/_16sdp"/>
+        <LinearLayout
+            android:id="@+id/signInButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="@drawable/button_click_effect"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOrContinueWith">
 
-       <LinearLayout
-           android:id="@+id/signInButton"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="@dimen/_16sdp"
-           android:background="@drawable/button_click_effect"
-           android:gravity="center_horizontal"
-           android:orientation="horizontal"
-           android:padding="@dimen/_5sdp"
-           app:layout_constraintBottom_toBottomOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toBottomOf="@id/tvOrContinueWith">
+            <ImageView
+                android:id="@+id/googleImage"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:contentDescription="@string/google_logo"
+                android:src="@drawable/google_image" />
 
-           <ImageView
-               android:id="@+id/googleImage"
-               android:layout_width="@dimen/_32sdp"
-               android:layout_height="@dimen/_32sdp"
-               android:layout_gravity="center_vertical"
-               android:layout_marginEnd="@dimen/_8sdp"
-               android:contentDescription="@string/google_logo"
-               android:src="@drawable/google_image" />
-
-           <TextView
-               android:id="@+id/googleText"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_gravity="center_vertical"
-               android:text="@string/sign_in_with_google"
-               android:textColor="@color/black"
-               android:textSize="@dimen/_14ssp"
-               android:textStyle="bold" />
-       </LinearLayout>
-   </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/googleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/sign_in_with_google"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

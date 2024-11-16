@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    //ksp
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs")
@@ -56,39 +55,37 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //text dimension
-    implementation("com.intuit.sdp:sdp-android:1.1.0")
-    implementation("com.intuit.ssp:ssp-android:1.1.0")
+    implementation(libs.sdp.android)
+    implementation(libs.ssp.android)
 
     // Navigation Component
-    implementation("androidx.navigation:navigation-fragment-ktx:2.8.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.8.3")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     //lifecycle
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.lifecycle.common.java8)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
-    //room database (sql based)
-    val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
+    //room database (sql based db)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     //Lottie animation
-    implementation("com.airbnb.android:lottie:4.2.0")
+    implementation(libs.lottie)
 
     // Google Sign In
-    val googleSignInVersion ="1.1.1"
-    implementation("androidx.credentials:credentials:$googleSignInVersion")
-    implementation("androidx.credentials:credentials-play-services-auth:$googleSignInVersion")
-    implementation("com.google.android.libraries.identity.googleid:googleid:$googleSignInVersion")
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
     // koin
-    implementation("io.insert-koin:koin-android:3.2.0")
+    implementation(libs.koin.android)
 
     // glide
-    implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation(libs.glide)
 
     // shimmer
-    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation(libs.shimmer)
 }

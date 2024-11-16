@@ -14,8 +14,6 @@
         android:layout_height="@dimen/_30sdp"
         android:scaleType="centerCrop"
         android:visibility="visible"
-        android:clickable="true"
-        android:focusable="true"
         android:foreground="@drawable/custom_ripple"
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
         />
@@ -31,7 +29,7 @@
             android:id="@+id/tvUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="User Name"
+            android:text="@string/user_name"
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
@@ -41,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_2sdp"
-            android:text="user@example.com"
+            android:text="@string/user_example_com"
             android:textColor="@color/white"
             android:textSize="@dimen/_9ssp" />
     </LinearLayout>
