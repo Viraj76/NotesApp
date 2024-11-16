@@ -34,9 +34,8 @@
                 android:id="@+id/cvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Notedfasdfasdfasdfasdasdfasdfasdfasdfasdfasdfasdfasdfasdfaasdfasdfadsffasdfasdfasdfs"
+                android:text=""
                 android:textColor="@color/white"
-                android:fontFamily="@font/font_one"
                 android:textStyle="bold"
                 android:textSize="25sp"/>
             <TextView
@@ -45,20 +44,18 @@
                 android:layout_height="wrap_content"
                 android:text="Virajasdsdfasdfasdfasdffasdf dfadfadf asd fasdfa"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="10dp"
                 android:textColor="#B5C4C4"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:fontFamily="@font/font_two"
                 android:textSize="20sp"/>
             <TextView
                 android:id="@+id/cvDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="23-23-2332"
+                android:layout_marginTop="10dp"
                 android:textColor="#F8F9F9"
                 android:textStyle="bold"
-                android:fontFamily="@font/font_two"
                 android:textSize="12sp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

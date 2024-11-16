@@ -10,4 +10,12 @@
     <string name="or_continue_with">or continue with</string>
     <string name="google_logo">Google Logo</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="add_note">Add Note</string>
+    <string name="add">Add</string>
+    <string name="done">Done</string>
+    <string name="enter_description_please">Enter description please</string>
+    <string name="priority">Priority :</string>
+    <string name="enter_subtitle_please">Enter subtitle please</string>
+    <string name="enter_title_please">Enter title please</string>
+    <string name="edit_note">Edit Note</string>
 </resources>

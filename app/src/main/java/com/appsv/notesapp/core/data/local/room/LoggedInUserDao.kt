@@ -17,7 +17,7 @@ interface LoggedInUserDao {
     suspend fun insertOrUpdateUser(authResult: LoggedInUserDetail)
 
     @Query("SELECT * FROM LoggedInUserDetail WHERE id = :userId LIMIT 1")
-     fun getUserById(userId: String): Flow<LoggedInUserDetail?>
+     fun getUserById(userId: String): LoggedInUserDetail
 
     @Query("SELECT * FROM LoggedInUserDetail")
     fun getAllUsers(): Flow<List<LoggedInUserDetail?>>

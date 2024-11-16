@@ -86,25 +86,25 @@
                         android:id="@+id/tvAddText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Add Note"
+                        android:text="@string/add_note"
                         android:visibility="visible"
                         android:gravity="center_vertical"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_20ssp"
                         android:textStyle="bold"
-                        tools:ignore="HardcodedText" />
+                         />
 
                     <TextView
                         android:id="@+id/tvEditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Edit Note"
+                        android:text="@string/edit_note"
                         android:gravity="center_vertical"
                         android:textColor="@color/white"
                         android:visibility="gone"
                         android:textSize="@dimen/_20ssp"
                         android:textStyle="bold"
-                        tools:ignore="HardcodedText" />
+                         />
                 </LinearLayout>
 
                 <ImageView
@@ -128,8 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_title"
-                android:fontFamily="@font/font_two"
-                android:hint="Enter title please"
+                android:hint="@string/enter_title_please"
                 android:padding="15dp"
                 android:inputType="text"
                 android:imeOptions="actionNext"
@@ -142,9 +141,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_title"
-                android:fontFamily="@font/font_two"
                 android:inputType="text"
-                android:hint="Enter subtitle please"
+                android:hint="@string/enter_subtitle_please"
                 android:padding="15dp"
                 android:imeOptions="actionNext"
                 android:textColor="@color/white"
@@ -162,14 +160,14 @@
                     android:id="@+id/tvPriority"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Priority :"
+                    android:text="@string/priority"
                     android:visibility="visible"
                     android:gravity="center_vertical"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="@dimen/_16ssp"
                     android:layout_marginEnd="@dimen/_20sdp"
-                    tools:ignore="HardcodedText" />
+                     />
 
                 <ImageView
                     android:id="@+id/ivLowPriority"
@@ -203,10 +201,9 @@
                 android:layout_marginTop="10dp"
                 android:minHeight="260dp"
                 android:background="@drawable/edit_text_title"
-                android:fontFamily="@font/font_two"
                 android:gravity="start"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:hint="Enter Description"
+                android:hint="@string/enter_description_please"
                 android:inputType="text"
 
                 android:padding="15dp"
@@ -221,9 +218,10 @@
         android:id="@+id/fabDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_25sdp"
-        android:contentDescription="Add"
-        android:text="Done"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:contentDescription="@string/add"
+        android:text="@string/done"
         android:textColor="@android:color/white"
         android:textSize="@dimen/_15ssp"
         app:backgroundTint="@color/light_blue"
@@ -233,6 +231,6 @@
         app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="HardcodedText" />
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

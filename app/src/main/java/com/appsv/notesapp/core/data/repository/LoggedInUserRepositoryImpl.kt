@@ -7,7 +7,9 @@ import com.appsv.notesapp.core.domain.Notes
 import com.appsv.notesapp.core.domain.models.LoggedInUserDetail
 import com.appsv.notesapp.core.domain.repositories.LoggedInUserRepository
 import com.appsv.notesapp.core.domain.repositories.NotesRepository
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 
 class LoggedInUserRepositoryImpl(
@@ -21,8 +23,9 @@ class LoggedInUserRepositoryImpl(
         loggedInUserDao.insertOrUpdateUser(authResult)
     }
 
-    override suspend fun getUserById(userId: String): Flow<LoggedInUserDetail?> {
-        return loggedInUserDao.getUserById(userId)
+    override suspend fun getUserById(userId: String): Flow<LoggedInUserDetail?> = callbackFlow {
+        trySend(loggedInUserDao.getUserById(userId))
+        awaitClose{}
     }
 
     override suspend fun getAllUsers(): Flow<List<LoggedInUserDetail?>> {

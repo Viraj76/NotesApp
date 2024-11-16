@@ -1,6 +1,7 @@
 package com.appsv.notesapp.notes.home.presentation
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsv.notesapp.auth.splash.domain.repository.LoginStatusRepository
@@ -23,9 +24,6 @@ class HomeViewModel(
 ) : ViewModel(), KoinComponent {
 
 
-    init {
-        getAllLoggedInUsers()
-    }
 
 
 
@@ -34,13 +32,32 @@ class HomeViewModel(
     private val loginStatusRepository: LoginStatusRepository by inject()
     private  val notesRepository: NotesRepository by inject()
 
+
+
     private val _notes = MutableStateFlow(NotesState())
     val notes  = _notes.asStateFlow()
 
     private val _currentUser = MutableStateFlow<String?>(null) // Allow null values
     val currentUser = _currentUser.asStateFlow()
 
+//    private val _getLoggedInUserDetail = MutableStateFlow(LoggedInUserDetail(id=""))
+//    val getLoggedInUserDetail = _getLoggedInUserDetail
 
+    init {
+        // get currentUser email Id
+        getUserId()
+
+        // get saved notes of the loggedIn User
+        viewModelScope.launch {
+            currentUser.collect { userID ->
+                userID?.let {
+                    getNotesByEmailId(it)
+                }
+            }
+        }
+
+        getAllLoggedInUsers()
+    }
     private val _allLoggedInUsers = MutableStateFlow<List<LoggedInUserDetail?>>(emptyList())
     val allLoggedInUsers = _allLoggedInUsers.asStateFlow()
 
@@ -56,16 +73,20 @@ class HomeViewModel(
 
 
 
-    private val _showUsersPopUpWindow = MutableStateFlow(false)
-    val showUsersPopUpWindow = _showUsersPopUpWindow.asStateFlow()
+    private val _showUsersPopUpWindow = MutableSharedFlow<Boolean>()
+    val showUsersPopUpWindow = _showUsersPopUpWindow.asSharedFlow()
 
 
     fun showUsersPopUpWindow(){
-        _showUsersPopUpWindow.value = true
+        viewModelScope.launch {
+            _showUsersPopUpWindow.emit(true)
+        }
     }
 
     fun hideUsersPopUpWindow(){
-        _showUsersPopUpWindow.value = false
+        viewModelScope.launch {
+            _showUsersPopUpWindow.emit(false)
+        }
     }
 
     private var _logOutDialogState = MutableStateFlow(false)
@@ -80,17 +101,6 @@ class HomeViewModel(
     }
 
     init {
-        // get currentUser email Id
-        getUserId()
-
-        // get saved notes of the loggedIn User
-        viewModelScope.launch {
-            currentUser.collect { userID ->
-                userID?.let {
-                    getNotesByEmailId(it)
-                }
-            }
-        }
 
 
     }
@@ -99,6 +109,8 @@ class HomeViewModel(
 
 
     private fun getUserId() {
+        Log.d("FDFDFDFD","comming")
+
         _currentUser.value = loginStatusRepository.getUser()
     }
     fun getNotesByEmailId(emailId: String) {
@@ -125,6 +137,18 @@ class HomeViewModel(
 
     private fun clearCurrentUser() {
         loginStatusRepository.saveUser(null)
+    }
+
+     fun changeAccount(email : String){
+        loginStatusRepository.saveUser(email)
+         getUserId()
+//         viewModelScope.launch {
+//             currentUser.collect { userID ->
+//                 userID?.let {
+//                     getUser(it)
+//                 }
+//             }
+//         }
     }
 
     suspend fun getUserById(id: String): Flow<LoggedInUserDetail?> {
